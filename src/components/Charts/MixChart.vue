@@ -1,6 +1,6 @@
 <template>
   <!--<div :id="id" :class="className" :style="{height:height,width:width}" />-->
-  <div :id="id" :class="className" :style="{height:'800px',width:'1200px'}" />
+  <div :id="id" :class="className" :style="{height:'800px',width:'1500px'}" />
   <!--<div :id="id" :class="className" :style="{width:'100%',height: '100%'}" />-->
   <!--<div :id="id" :class="className" :style="{width:'100%',height: '100%'}" />-->
 </template>
