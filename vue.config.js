@@ -7,17 +7,18 @@ function resolve(dir) {
 }
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
-const port = 9528 // dev port
+const port = 9529 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
+   * for  GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
    * then publicPath should be set to "/bar/".
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
+
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -33,11 +34,11 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-        target: `http://indoor.yunweizhi.net/index.php`,
+      '/api': {
+        target: `http://localhost:8080/indoor-location/`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          '^/api': '/'
         }
       }
     }
@@ -90,11 +91,7 @@ module.exports = {
       .when(process.env.NODE_ENV === 'development',
         config => config.devtool('cheap-source-map')
       )
-    config
-      .resolve.alias
-      .set('@', resolve('src'))
-      .set('@assets', resolve('src/assets'))
-      .set('@views', resolve('src/views'))
+
     config
       .when(process.env.NODE_ENV !== 'development',
         config => {
@@ -102,7 +99,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
