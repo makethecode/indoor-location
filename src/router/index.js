@@ -32,7 +32,7 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/login',
+    path: '/',
     component: () => import('@/views/login/index'),
     hidden: true
   },
@@ -44,37 +44,22 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '/home',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/home/dashboard',
+    name: 'dashboard',
+    meta: { title: '车辆列表', icon: 'home' },
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('../views/dashboard/index'),
-      meta: { title: '实时监控', icon: 'dashboard', affix: true }
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '车辆列表', icon: 'home' }
     }]
   },
-
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
+    path: '/register',
+    component: () => import('@/views/register/register'),
+    hidden: true
   },
 
   {
@@ -211,7 +196,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: 'external-link',
     component: Layout,

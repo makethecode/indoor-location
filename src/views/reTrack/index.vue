@@ -42,7 +42,7 @@
               ref="tree2"
               class="filter-tree"
               :data="data"
-              border-radius:0px
+
               show-checkbox
               node-key="id"
               :props="defaultProps"
