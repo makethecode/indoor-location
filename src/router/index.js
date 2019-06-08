@@ -32,7 +32,7 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/',
+    path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
@@ -44,23 +44,17 @@ export const constantRoutes = [
   },
 
   {
-    path: '/home',
+    path: '/',
     component: Layout,
-    redirect: '/home/dashboard',
-    name: 'dashboard',
-    meta: { title: '车辆列表', icon: 'home' },
+    redirect: '/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '车辆列表', icon: 'home' }
+      component: () => import('../views/dashboard/index'),
+      meta: { title: '实时监控', icon: 'dashboard', affix: true }
     }]
   },
-  {
-    path: '/register',
-    component: () => import('@/views/register/register'),
-    hidden: true
-  },
+
   {
     path: '/example',
     component: Layout,
@@ -95,7 +89,71 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/traceReplay',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'traceReplay',
+        component: () => import('@/views/traceReplay/index'),
+        meta: { title: '轨迹回放', icon: 'eye-open' }
+      }
+    ]
+  },
+  {
+    path: '/alarmRecord',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'alarmRecord',
+        component: () => import('@/views/alarmRecord/index'),
+        meta: { title: '报警记录', icon: 'alarm2' }
+      }
+    ]
+  },
+  {
+    path: '/dStates',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'dStates',
+        component: () => import('@/views/dStates/index'),
+        meta: { title: '设备状态', icon: 'dStates' }
+      }
+    ]
+  },
+  {
+    path: '/analyseStat',
+    component: Layout,
+    redirect: '/analyseStat/menu1',
+    name: 'analyseStat',
+    meta: {
+      title: '分析统计',
+      icon: 'tree'
+    },
+    children: [
+      {
+        path: 'onlineStat',
+        component: () => import('@/views/analyseStat/onlineStat/index'),
+        name: 'OnlineStat',
+        meta: {
+          title: '在线统计',
+          icon: 'onlineStat'
+        }
+      },
+      {
+        path: 'areaAnalyse',
+        component: () => import('@/views/analyseStat/areaAnalyse/index'),
+        meta: {
+          title: '区域分析',
+          icon: 'areaAnalyse'
+        }
+      }
+    ]
+  },
   {
     path: '/nested',
     component: Layout,
