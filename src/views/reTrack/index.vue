@@ -103,11 +103,11 @@ export default {
           id: 2,
           label: 'TAG',
           children: [{
-            id: 10004,
-            label: '10004'
+            id: 2504,
+            label: '2504'
           }, {
-            id: 11,
-            label: '2513'
+            id: 2521,
+            label: '2521'
           }, {
             id: 12,
             label: '1000402598'
@@ -150,12 +150,13 @@ export default {
     }
   },
   created() {
-    // this.fetchLocation1(this)
+
   },
   mounted() {
     setTimeout(() => {
       console.log(this.stars, 'mounted')
     }, 2000)
+    setInterval(this.fetchLocation, 1000)
   },
   methods: {
 
@@ -166,17 +167,19 @@ export default {
     fetchLocation() {
       var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
       var arr = choosen.substring(1, choosen.length - 1).split(',')
+      console.log(arr, 'arr.contents')
       if (!this.checkList.includes('离线显示')) {
         return
       }
       const self = this
       axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
         qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
+          'key': '9nPLSh6yDjvtHRTenLjL',
+          'mapId': 'zizhu602a_passive',
           'tags':
             [
-              { 'major': arr[0], 'minor': 2598 }
+              { 'major': 10004, 'minor': 2504 },
+              { 'major': 10004, 'minor': 2521 }
             ]
         }))
         .then(function(response) {
@@ -187,29 +190,11 @@ export default {
           // if (!self.stars.includes({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })) {
           //   self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
           // }
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          // console.log(self.stars.length, 'aaaaaaaaaaa')
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    },
-    fetchLocation1(self) {
-      axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
-        qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
-          'tags':
-            [
-              { 'major': 10004, 'minor': 2598 }
-            ]
-        }))
-        .then(function(response) {
-          var ob1 = JSON.stringify(response.data)
-          var json = JSON.parse(ob1)
-          var data = JSON.parse(JSON.stringify(json.data))
-          var tags = JSON.parse(JSON.stringify(data.tags))
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
+          var item = []
+          for (var i = 0; i < tags.length; i++) {
+            item.push({ name: tags[i].mapId, lng: tags[i].posX, lat: tags[i].posY })
+          }
+          self.stars = item
           console.log(self.stars.length, 'aaaaaaaaaaa')
         })
         .catch(function(error) {

@@ -13,60 +13,60 @@
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>
             </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;">
-            </div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
-            <el-button type="primary">导出<i class="el-icon-upload el-icon--right"></i></el-button>
+            <el-button type="primary">导出<i class="el-icon-upload el-icon--right" /></el-button>
           </el-header>
-            <!--表格-->
-            <el-table
-              :data="tableData"
-              border
-              style="width: 100%"
-              :default-sort = "{prop: 'no', order: 'descending'}"
+          <!--表格-->
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            :default-sort="{prop: 'no', order: 'descending'}"
+          >
+            <el-table-column
+              prop="no"
+              label="编号"
+              sortable
+              style="width: 20%"
+            />
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+              style="width: 20%"
+            />
+            <el-table-column
+              prop="floor"
+              label="楼层"
+              sortable
+              style="width: 5%"
+            />
+            <el-table-column
+              prop="edition"
+              label="版本"
+              sortable
+              style="width: 10%"
             >
-              <el-table-column
-                prop="no"
-                label="编号"
-                sortable
-                style="width: 20%">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="名称"
-                sortable
-                style="width: 20%">
-              </el-table-column>
-              <el-table-column
-                prop="floor"
-                label="楼层"
-                sortable
-                style="width: 5%">
-              </el-table-column>
-              <el-table-column
-                prop="edition"
-                label="版本"
-                sortable
-                style="width: 10%">
-                <!--:formatter="formatter"  不知道要不要用 1/2-->
-              </el-table-column>
-              <el-table-column
-                prop="time"
-                label="最后连接时间"
-                sortable
-                style="width: 15%">
-              </el-table-column>
-            </el-table>
+              <!--:formatter="formatter"  不知道要不要用 1/2-->
+            </el-table-column>
+            <el-table-column
+              prop="time"
+              label="最后连接时间"
+              sortable
+              style="width: 15%"
+            />
+          </el-table>
           <!--分页-->
-          <div class="block" style="float: right" >
+          <div class="block" style="float: right">
             <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
               :current-page.sync="currentPage3"
               :page-size="100"
               layout="prev, pager, next, jumper"
-              :total="1000">
-            </el-pagination>
+              :total="1000"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </el-tab-pane>
         <el-tab-pane label="标签">
@@ -80,60 +80,60 @@
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>
             </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;">
-            </div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
-            <el-button type="primary">导出<i class="el-icon-upload el-icon--right"></i></el-button>
+            <el-button type="primary">导出<i class="el-icon-upload el-icon--right" /></el-button>
           </el-header>
           <!--表格-->
           <el-table
             :data="tableData"
             border
             style="width: 100%"
-            :default-sort = "{prop: 'no', order: 'descending'}"
+            :default-sort="{prop: 'no', order: 'descending'}"
           >
             <el-table-column
               prop="no"
               label="编号"
               sortable
-              style="width: 20%">
-            </el-table-column>
+              style="width: 20%"
+            />
             <el-table-column
               prop="name"
               label="名称"
               sortable
-              style="width: 20%">
-            </el-table-column>
+              style="width: 20%"
+            />
             <el-table-column
               prop="identity"
               label="标识号"
               sortable
-              style="width: 5%">
-            </el-table-column>
+              style="width: 5%"
+            />
             <el-table-column
               prop="Electric "
               label="电量"
               sortable
-              style="width: 10%">
+              style="width: 10%"
+            >
               <!--:formatter="formatter"  不知道要不要用 1/2-->
             </el-table-column>
             <el-table-column
               prop="time"
               label="最后定位时间"
               sortable
-              style="width: 15%">
-            </el-table-column>
+              style="width: 15%"
+            />
           </el-table>
           <!--分页-->
-          <div class="block" style="float: right" >
+          <div class="block" style="float: right">
             <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
               :current-page.sync="currentPage3"
               :page-size="100"
               layout="prev, pager, next, jumper"
-              :total="1000">
-            </el-pagination>
+              :total="1000"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </el-tab-pane>
         <el-tab-pane label="基站">
@@ -147,22 +147,21 @@
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>
             </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;">
-            </div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
-            <el-button type="primary" icon="el-icon-edit"  @click="dialogFormVisible = true">添加基站</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="dialogFormVisible = true">添加基站</el-button>
             <el-dialog title="添加基站" :visible.sync="dialogFormVisible" width="750px">
               <el-form :model="form">
                 <el-form-item label="名称:" :label-width="formLabelWidth" style="width: 600px">
-                  <el-input v-model="form.name" autocomplete="off"></el-input>
+                  <el-input v-model="form.name" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="mac:" :label-width="formLabelWidth" style="width: 600px">
-                  <el-input v-model="form.mac" autocomplete="off"></el-input>
+                  <el-input v-model="form.mac" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="楼层:" :label-width="formLabelWidth" style="width: 800px">
-                  <el-select v-model="form.floor" >
-                    <el-option label="1" value="shanghai"></el-option>
-                    <el-option label="2" value="beijing"></el-option>
+                  <el-select v-model="form.floor">
+                    <el-option label="1" value="shanghai" />
+                    <el-option label="2" value="beijing" />
                   </el-select>
                 </el-form-item>
               </el-form>
@@ -177,56 +176,56 @@
             :data="tableData"
             border
             style="width: 100%"
-            :default-sort = "{prop: 'no', order: 'descending'}"
+            :default-sort="{prop: 'no', order: 'descending'}"
           >
             <el-table-column
               prop="no"
               label="编号"
               sortable
-              style="width: 20%">
-            </el-table-column>
+              style="width: 20%"
+            />
             <el-table-column
               prop="name"
               label="名称"
               sortable
-              style="width: 20%">
-            </el-table-column>
+              style="width: 20%"
+            />
             <el-table-column
               prop="floor"
               label="楼层"
               sortable
-              style="width: 5%">
-            </el-table-column>
+              style="width: 5%"
+            />
             <el-table-column
               prop="edition"
               label="版本"
               sortable
-              style="width: 10%">
+              style="width: 10%"
+            >
               <!--:formatter="formatter"  不知道要不要用 1/2-->
             </el-table-column>
             <el-table-column
               prop="time"
               label="最后连接时间"
               sortable
-              style="width: 15%">
-            </el-table-column>
+              style="width: 15%"
+            />
           </el-table>
           <!--分页-->
-          <div class="block" style="float: right" >
+          <div class="block" style="float: right">
             <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
               :current-page.sync="currentPage3"
               :page-size="100"
               layout="prev, pager, next, jumper"
-              :total="1000">
-            </el-pagination>
+              :total="1000"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </el-tab-pane>
 
       </el-tabs>
-      <el-container>
-      </el-container>
+      <el-container />
     </el-container>
   </div>
 </template>
@@ -234,6 +233,7 @@
 <script>
 import axios from 'axios'
 import qs from 'qs'
+import { getdStates } from '../../api/dStates'
 
 export default {
   name: 'DStates',
@@ -262,7 +262,7 @@ export default {
     }
   },
   created() {
-    // this.fetchLocation1(this)
+    this.fetchData(this)
   },
   mounted() {
     setTimeout(() => {
@@ -274,59 +274,10 @@ export default {
     // formatter(row, column) {
     //   return row.address;
     // }
-
-    fetchLocation() {
-      var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
-      var arr = choosen.substring(1, choosen.length - 1).split(',')
-      // if (!this.checkList.includes('离线显示')) {
-      //   return
-      // }
-      const self = this
-      axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
-        qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
-          'tags':
-            [
-              { 'major': arr[0], 'minor': 2598 }
-            ]
-        }))
-        .then(function(response) {
-          var ob1 = JSON.stringify(response.data)
-          var json = JSON.parse(ob1)
-          var data = JSON.parse(JSON.stringify(json.data))
-          var tags = JSON.parse(JSON.stringify(data.tags))
-          // if (!self.stars.includes({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })) {
-          //   self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          // }
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          // console.log(self.stars.length, 'aaaaaaaaaaa')
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    },
-    fetchLocation1(self) {
-      axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
-        qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
-          'tags':
-            [
-              { 'major': 10004, 'minor': 2598 }
-            ]
-        }))
-        .then(function(response) {
-          var ob1 = JSON.stringify(response.data)
-          var json = JSON.parse(ob1)
-          var data = JSON.parse(JSON.stringify(json.data))
-          var tags = JSON.parse(JSON.stringify(data.tags))
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          console.log(self.stars.length, 'aaaaaaaaaaa')
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+    fetchData() {
+      getdStates().then(response => {
+        this.list = response.data
+      })
     },
     filterNode(value, data) {
       if (!value) return true

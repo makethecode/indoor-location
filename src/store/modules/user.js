@@ -10,6 +10,7 @@ const state = {
 
 const mutations = {
   SET_TOKEN: (state, token) => {
+    console.log(token, 'getToken')
     state.token = token
   },
   SET_NAME: (state, name) => {

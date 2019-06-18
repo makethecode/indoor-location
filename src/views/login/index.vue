@@ -163,7 +163,6 @@ export default {
               this.$store.commit('user/SET_NAME')
               this.$store.commit('user/SET_TOKEN')
               this.$router.push({ path: this.redirect || '/home' })
-
             }
           })
         } else {
