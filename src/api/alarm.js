@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getdStates(data) {
+export function getAlarmInfo(data) {
   return request({
-    url: '/func/web/getdStates',
+    url: '/func/web/getAlarmInfo',
     method: 'post'
   })
 }

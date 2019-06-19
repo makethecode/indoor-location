@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getdStates(data) {
+export function getRouterInfo(data) {
   return request({
-    url: '/func/web/getdStates',
+    url: '/func/web/getRouterInfo',
     method: 'post'
   })
 }

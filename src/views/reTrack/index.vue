@@ -12,7 +12,7 @@
           </el-input>
         </div>
         <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click="fetchLocation" />
+          <el-button type="primary" icon="el-icon-view" circle @click=fetchLocation />
         </div>
         <div style="width: 250px;float: left">
           <el-checkbox-group v-model="checkList">
@@ -20,18 +20,16 @@
             <el-checkbox label="多信息窗" />
           </el-checkbox-group>
         </div>
-        <div style="width: 150px;float: left">
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              刷新频率：1秒<i class="el-icon-arrow-down el-icon--right" />
-            </span>
-            <el-dropdown-menu slot="dropdown"><el-dropdown-item>1秒</el-dropdown-item>
-              <el-dropdown-item>2秒</el-dropdown-item>
-              <el-dropdown-item>5秒</el-dropdown-item>
-              <el-dropdown-item>10秒</el-dropdown-item>
-              <el-dropdown-item>20秒</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+        <div style="width: 30px;float: left">  &nbsp;  </div>
+        <div style="float: left" >刷新频率 :
+          <el-select v-model="value" placeholder="请选择" @change="currentSel">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </div>
       </el-header>
       <el-container>
@@ -74,7 +72,6 @@
             </l-marker>
           </l-map>
         </el-main>
-
       </el-container>
     </el-container>
   </div>
@@ -89,7 +86,26 @@ export default {
   name: 'ReTrack',
   data() {
     return {
-
+      timer: null,
+      options: [{
+        value: '1000',
+        label: '1秒'
+      }, {
+        value: '2000',
+        label: '2秒'
+      }, {
+        value: '5000',
+        label: '5秒'
+      }, {
+        value: '10000',
+        label: '10秒'
+      }, {
+        value: '20000',
+        label: '20秒'
+      }],
+      value: '',
+      dialogVisible: false,
+      selVal: '',
       mapsource: 'map.png',
       bounds: [[-300, -300], [600, 600]],
       crs: L.CRS.Simple,
@@ -152,19 +168,38 @@ export default {
   created() {
 
   },
+  destroyed() {
+    this.end
+  },
   mounted() {
     setTimeout(() => {
       console.log(this.stars, 'mounted')
     }, 2000)
-    setInterval(this.fetchLocation, 1000)
+    // setInterval(this.fetchLocation, 1000)
   },
   methods: {
 
+    // const myVar = setInterval(this.fetchLocation, time),
+
+    start: function(time) {
+      this.timer = setInterval(this.fetchLocation, time)
+    },
+    end: function() {
+      clearInterval(this.timer)
+    },
+    currentSel(selVal) {
+      this.end()
+      this.selVal = selVal
+      this.dialogVisible = true
+      this.start(selVal)
+      // this.$options.methods.fetchLocation(selVal)
+    },
     test() {
       console.log(this.checkList.includes('多信息窗'))
     },
 
     fetchLocation() {
+      alert(111)
       var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
       var arr = choosen.substring(1, choosen.length - 1).split(',')
       console.log(arr, 'arr.contents')
