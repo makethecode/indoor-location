@@ -5,10 +5,11 @@
         <div style="width:250px; padding-bottom: 10px; float: left;">
           <el-input
             v-model="filterText"
-            placeholder="查询"
+            placeholder="输入编号/名称"
+            class="filterText"
+            clearable
           >
-            <el-button slot="append" icon="el-icon-search" />
-            <el-button slot="append" icon="el-icon-refresh" />
+            <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
           </el-input>
         </div>
         <div style="width: 100px;float: left">
@@ -180,7 +181,9 @@ export default {
   methods: {
 
     // const myVar = setInterval(this.fetchLocation, time),
-
+    empty() {
+      this.filterText = ''
+    },
     start: function(time) {
       this.timer = setInterval(this.fetchLocation, time)
     },

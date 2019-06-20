@@ -9,6 +9,8 @@
               <el-input
                 v-model="filterText"
                 placeholder="输入编号/名称"
+                class="id_input"
+                clearable
               >
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>

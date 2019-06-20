@@ -1,14 +1,15 @@
-<template>
+<template xmlns:border-radius="">
   <div class="app-container">
     <el-container style="height: 100%;min-height:800px;" direction="vertical">
       <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: right; font-size: 12px">
         <div style="width:250px; padding-bottom: 10px; float: left;">
           <el-input
             v-model="filterText"
-            placeholder="查询"
+            placeholder="输入编号/名称"
+            class="filterText"
+            clearable
           >
-            <el-button slot="append" icon="el-icon-search" />
-            <el-button slot="append" icon="el-icon-refresh" />
+            <el-button slot="append" icon="el-icon-refresh" @click=" empty"/>
           </el-input>
         </div>
         <div style="width: 100px;float: left">
@@ -117,7 +118,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 export default {
-  name: 'traceReplay',
+  name: 'TraceReplay',
   data() {
     return {
       // 时间选择器
@@ -200,9 +201,9 @@ export default {
   },
   methods: {
 
-    // test() {
-    //   console.log(this.checkList.includes('多信息窗'))
-    // },
+    empty() {
+      this.filterText = ''
+    },
 
     fetchLocation() {
       var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
