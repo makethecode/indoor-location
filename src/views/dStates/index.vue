@@ -13,22 +13,20 @@
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>
             </div>
-
             <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
             <el-button type="primary">导出<i class="el-icon-upload el-icon--right" /></el-button>
           </el-header>
-          <!--表格-->
           <el-table
+            :data="beaconTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+            strip
             v-loading="listLoading"
-            :data="list"
             element-loading-text="Loading"
             border
             fit
             highlight-current-row
-          >
+            style="margin-top:10px">
             <el-table-column
-              prop="no"
               label="编号"
               sortable
               min-width="10">
@@ -37,8 +35,7 @@
             </template>
             </el-table-column>
             <el-table-column
-              prop="name"
-              label="名称"
+              label="设备编号"
               sortable
               min-width="10">
               <template slot-scope="scope">
@@ -46,100 +43,161 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="floor"
-              label="楼层"
+              label="设备数量"
               sortable
               min-width="10">
               <template slot-scope="scope">
                 {{ scope.row.beaconNum }}
               </template>
             </el-table-column>
-
-            <!--<el-table-column-->
-              <!--prop="edition"-->
-              <!--label="版本"-->
-              <!--sortable-->
-              <!--style="width: 10%"-->
-            <!--&gt;-->
-              <!--&lt;!&ndash;:formatter="formatter"  不知道要不要用 1/2&ndash;&gt;-->
-            <!--</el-table-column>-->
-            <!--<el-table-column-->
-              <!--prop="time"-->
-              <!--label="最后连接时间"-->
-              <!--sortable-->
-              <!--style="width: 15%"-->
-            <!--/>-->
-
+            <el-table-column
+              label="设备类型"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.beaconType }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="设备状态"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.beaconStatus }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="设备X轴坐标"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.beaconX }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="设备Y轴坐标"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.beaconY }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="公司编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.companyId }}
+              </template>
+            </el-table-column>
           </el-table>
-          <!--分页-->
           <div class="block" style="float: right">
             <el-pagination
-              :current-page.sync="currentPage3"
-              :page-size="100"
-              layout="prev, pager, next, jumper"
-              :total="1000"
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-            />
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+                :total="beaconTableList.length">
+            </el-pagination>
           </div>
         </el-tab-pane>
-        <!--<el-tab-pane label="标签">-->
-          <!--<el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px;">-->
-            <!--&lt;!&ndash;搜索框&ndash;&gt;-->
-            <!--<div style="width:250px; padding-bottom: 10px; float: left;">-->
-              <!--<el-input-->
-                <!--v-model="filterText"-->
-                <!--placeholder="输入名称/编号/标识符"-->
-              <!--&gt;-->
-                <!--<el-button slot="append" icon="el-icon-refresh" />-->
-              <!--</el-input>-->
-            <!--</div>-->
-            <!--<div style="width:50px; padding-bottom: 10px; float: left;" />-->
-            <!--<el-button type="primary" icon="el-icon-search">搜索</el-button>-->
-            <!--<el-button type="primary">导出<i class="el-icon-upload el-icon&#45;&#45;right" /></el-button>-->
-          <!--</el-header>-->
-          <!--&lt;!&ndash;表格&ndash;&gt;-->
-          <!--<el-table-->
-            <!--:data="tableData"-->
-            <!--border-->
-            <!--style="width: 100%"-->
-            <!--:default-sort="{prop: 'no', order: 'descending'}"-->
-          <!--&gt;-->
-            <!--<el-table-column-->
-              <!--prop="no"-->
-              <!--label="编号"-->
-              <!--sortable-->
-              <!--style="width: 20%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="name"-->
-              <!--label="名称"-->
-              <!--sortable-->
-              <!--style="width: 20%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="identity"-->
-              <!--label="标识号"-->
-              <!--sortable-->
-              <!--style="width: 5%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="Electric "-->
-              <!--label="电量"-->
-              <!--sortable-->
-              <!--style="width: 10%"-->
-            <!--&gt;-->
-              <!--&lt;!&ndash;:formatter="formatter"  不知道要不要用 1/2&ndash;&gt;-->
-            <!--</el-table-column>-->
-            <!--<el-table-column-->
-              <!--prop="time"-->
-              <!--label="最后定位时间"-->
-              <!--sortable-->
-              <!--style="width: 15%"-->
-            <!--/>-->
-          <!--</el-table>-->
-        <!--</el-tab-pane>-->
-        <!--<el-tab-pane label="基站">-->
+        <el-tab-pane label="标签">
+        <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px;">
+        <!--搜索框-->
+        <div style="width:250px; padding-bottom: 10px; float: left;">
+        <el-input
+        v-model="filterText"
+        placeholder="输入名称/编号/标识符"
+        >
+                <el-button slot="append" icon="el-icon-refresh" />
+              </el-input>
+            </div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
+            <el-button type="primary" icon="el-icon-search">搜索</el-button>
+            <el-button type="primary">导出<i class="el-icon-upload el-icon--right" /></el-button>
+          </el-header>
+          <!--表格-->
+          <el-table
+            :data="cardTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+            strip
+            v-loading="listLoading"
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            style="margin-top:10px">
+            <el-table-column
+              label="编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.$index+1 }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="人员编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.personId }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="标签编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.cardId }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="标签数量"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.cardNum }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="标签类型"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.cardType }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="标签状态"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.cardStatus }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="公司编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.companyId }}
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="block" style="float: right">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="cardTableList.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="基站">
           <!--<el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px;">-->
             <!--&lt;!&ndash;搜索框&ndash;&gt;-->
             <!--<div style="width:250px; padding-bottom: 10px; float: left;">-->
@@ -174,48 +232,77 @@
               <!--</div>-->
             <!--</el-dialog>-->
           <!--</el-header>-->
-          <!--&lt;!&ndash;表格&ndash;&gt;-->
-          <!--<el-table-->
-            <!--:data="tableData"-->
-            <!--border-->
-            <!--style="width: 100%"-->
-            <!--:default-sort="{prop: 'no', order: 'descending'}"-->
-          <!--&gt;-->
-            <!--<el-table-column-->
-              <!--prop="no"-->
-              <!--label="编号"-->
-              <!--sortable-->
-              <!--style="width: 20%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="name"-->
-              <!--label="名称"-->
-              <!--sortable-->
-              <!--style="width: 20%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="floor"-->
-              <!--label="楼层"-->
-              <!--sortable-->
-              <!--style="width: 5%"-->
-            <!--/>-->
-            <!--<el-table-column-->
-              <!--prop="edition"-->
-              <!--label="版本"-->
-              <!--sortable-->
-              <!--style="width: 10%"-->
-            <!--&gt;-->
-              <!--&lt;!&ndash;:formatter="formatter"  不知道要不要用 1/2&ndash;&gt;-->
-            <!--</el-table-column>-->
-            <!--<el-table-column-->
-              <!--prop="time"-->
-              <!--label="最后连接时间"-->
-              <!--sortable-->
-              <!--style="width: 15%"-->
-            <!--/>-->
-          <!--</el-table>-->
-        <!--</el-tab-pane>-->
-
+          <!--表格-->
+          <el-table
+            :data="routerTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+            strip
+            v-loading="listLoading"
+            element-loading-text="Loading"
+            border
+            fit
+            highlight-current-row
+            style="margin-top:10px">
+            <el-table-column
+              label="编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.$index+1 }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="基站编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.routerId }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="基站数量"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.routerNum }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="基站类型"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.routerType }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="基站状态"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.routerStatus }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="公司编号"
+              sortable
+              min-width="10">
+              <template slot-scope="scope">
+                {{ scope.row.companyId }}
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="block" style="float: right">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="routerTableList.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </el-container>
   </div>
@@ -223,37 +310,76 @@
 
 <script>
 import { getdStates } from '../../api/dStates'
+import { getCardInfo } from '../../api/card'
+import { getRouterInfo } from '../../api/router'
 export default {
   filters: {
 
   },
-  name: 'DStates',
   data() {
     return {
-      list: null,
+      pageSize: 10, // 每页的数据条数
+      currentPage: 1, // 默认开始页面
+      data: [],
+      beaconlist: [],
+      cardlist: [],
+      routerlist: [],
       listLoading: true,
-      // form: {
-      //   name: '',
-      //   mac: '',
-      //   floor: '',
-      //   date1: '',
-      //   date2: '',
-      //   delivery: false,
-      //   type: [],
-      //   resource: '',
-      //   desc: ''
-      // },
-      formLabelWidth: '120px',
+      createDate: '',
+      overDate: '',
+      pickerOptionsStart: {
+        disabledDate: time => {
+          const endDateVal = this.overDate
+          if (endDateVal) {
+            return time.getTime() > new Date(endDateVal).getTime()
+          }
+        }
+      },
+      pickerOptionsEnd: {
+        disabledDate: time => {
+          const beginDateVal = this.createDate
+          if (beginDateVal) {
+            return (
+              time.getTime() <
+              new Date(beginDateVal).getTime()
+            )
+          }
+        }
+      },
+      // 搜索框
       filterText: ''
     }
   },
-  // computed: {
-  //   'tableList': function() {
-  //     return this.list.filter(item => {
-  //       { return false }
-  //     })
-  //   }
-  // },
+  computed: {
+
+    'beaconTableList': function() {
+      return this.beaconlist.filter(item => {
+        // if (!this.createDate || !this.overDate) {
+        //   return true
+        // }
+        // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
+        return true
+      })
+    },
+    'cardTableList': function() {
+      return this.cardlist.filter(item => {
+        // if (!this.createDate || !this.overDate) {
+        //   return true
+        // }
+        // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
+        return true
+      })
+    },
+    'routerTableList': function() {
+      return this.routerlist.filter(item => {
+        // if (!this.createDate || !this.overDate) {
+        //   return true
+        // }
+        // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
+        return true
+      })
+    }
+  },
   created() {
     this.fetchData()
   },
@@ -262,26 +388,39 @@ export default {
     fetchData() {
       this.listLoading = true
       getdStates().then(response => {
-        this.list = response.data
+        this.beaconlist = response.data
+      })
+      getCardInfo().then(response => {
+        this.cardlist = response.data
+      })
+      getRouterInfo().then(response => {
+        this.routerlist = response.data
       })
       this.listLoading = false
+    },
+    startTimeStatus: function(value) {
+      this.createDate = value
+    },
+    // 时间结束选择器
+    endTimeStatus: function(value) {
+      this.overDate = value
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === 0) {
+        return 'th'
+      }
+      return ''
+    },
+    handleSizeChange: function(size) {
+      this.pageSize = size
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage
     }
+
   }
 }
 
 </script>
 <style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-  }
-  .el-table-filter {
-    max-height: 700px;
-    overflow: auto;
-  }
 </style>

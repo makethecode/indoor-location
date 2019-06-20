@@ -199,7 +199,6 @@ export default {
     },
 
     fetchLocation() {
-      alert(111)
       var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
       var arr = choosen.substring(1, choosen.length - 1).split(',')
       console.log(arr, 'arr.contents')

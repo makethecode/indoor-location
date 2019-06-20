@@ -21,15 +21,19 @@
                 <el-button slot="append" icon="el-icon-refresh" />
               </el-input>
             </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;"></div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-search">搜索</el-button>
           </el-header>
           <!--表格-->
+          <!--<el-table-->
+            <!--:data="tableData"-->
+            <!--border-->
+            <!--style="width: 100%"-->
+          <!--&gt;-->
           <el-table
-            :data="tableData"
-            border
-            style="width: 100%"
-          >
+            :data="data.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            stripe
+            style="width: 100%">
             <el-table-column
               fixed
               prop="name"
@@ -166,13 +170,14 @@
           <!--分页-->
           <div class="block" style="float: right">
             <el-pagination
-              :current-page.sync="currentPage3"
-              :page-size="100"
-              layout="prev, pager, next, jumper"
-              :total="1000"
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-            />
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 50, 100]"
+              :page-size="pagesize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="data.length">
+            </el-pagination>
           </div>
         </el-tab-pane>
         <el-tab-pane label="图表">
@@ -185,7 +190,7 @@
                 placeholder="选择日期"
               />
             </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;"></div>
+            <div style="width:50px; padding-bottom: 10px; float: left;" />
             <el-button type="primary" icon="el-icon-refresh">刷新</el-button>
             <el-button type="primary" icon="el-icon-download">保存为图片</el-button>
           </el-header>
@@ -208,6 +213,9 @@ export default {
   components: { Chart },
   data() {
     return {
+      data: [],
+      currentPage: 1,
+      pagesize: 20,
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now()
@@ -216,7 +224,16 @@ export default {
       day: '',
       filterText: ''
     }
+  },
+  methods: {
+    handleSizeChange: function(size) {
+      this.pagesize = size
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage
+    }
   }
+
 }
 </script>
 <style scoped>

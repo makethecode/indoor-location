@@ -15,7 +15,15 @@
         <!--fit-->
         <!--highlight-current-row-->
       <!--&gt;-->
-        <el-table :data="tableList.slice((currentPage-1)*pageSize,currentPage*pageSize)" strip border fit highlight-current-row style="margin-top:10px">
+        <el-table
+                  :data="tableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                  strip
+                  v-loading="listLoading"
+                  element-loading-text="Loading"
+                  border
+                  fit
+                  highlight-current-row
+                  style="margin-top:10px">
         <el-table-column
           label="编号"
           sortable
@@ -88,14 +96,17 @@
         </el-table-column>
       </el-table>
       <!--分页-->
+    <div class="block" style="float: right">
     <el-pagination
-      class="fy"
-      layout="prev, pager, next"
-      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 50, 100]"
       :page-size="pageSize"
-      background
-      @current-change="current_change"
-    />
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="tableList.length">
+    </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -110,9 +121,9 @@ export default {
   },
   data() {
     return {
-      total: 1000, // 默认数据总数
       pageSize: 10, // 每页的数据条数
       currentPage: 1, // 默认开始页面
+      data: [],
       list: [],
       listLoading: true,
       createDate: '',
@@ -176,7 +187,10 @@ export default {
       }
       return ''
     },
-    current_change: function(currentPage) {
+    handleSizeChange: function(size) {
+      this.pageSize = size
+    },
+    handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
     }
 
@@ -185,17 +199,4 @@ export default {
 
 </script>
 <style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-  }
-  .el-table-filter {
-    max-height: 700px;
-    overflow: auto;
-  }
 </style>
