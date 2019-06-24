@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function getLocation(card) {
+export function getLocation(data) {
   return request({
-    url: '/func/allow/getGoodsList',
+    url: '/func/web/getLocationHistoryByTime',
     method: 'post',
-    card
+    data
   })
 }

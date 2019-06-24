@@ -9,7 +9,7 @@
             class="filterText"
             clearable
           >
-            <el-button slot="append" icon="el-icon-refresh" @click=" empty"/>
+            <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
           </el-input>
         </div>
         <div style="width: 100px;float: left">
@@ -17,52 +17,52 @@
         </div>
         <!--单选框组-->
         <div style="width: 250px;float: left">
-        <el-radio-group v-model="radio">
-        <el-radio :label="3">1X</el-radio>
-        <el-radio :label="6">2X</el-radio>
-        <el-radio :label="9">4X</el-radio>
-        </el-radio-group>
+          <el-radio-group v-model="radio">
+            <el-radio :label="3">1X</el-radio>
+            <el-radio :label="6">2X</el-radio>
+            <el-radio :label="9">4X</el-radio>
+          </el-radio-group>
         </div>
-        <div  style="width: 650px;float: left" >
+        <div style="width: 650px;float: left">
           <!--选择日-->
           <div class="block" style="width: 250px;float: left" gutter="20">
             <el-date-picker
               v-model="day"
               type="date"
-              placeholder="选择日期">
-            </el-date-picker>
+              placeholder="选择日期"
+            />
           </div>
           <!--时间选择器-->
           <div style="float: right">
             <el-time-picker
-              is-range
               v-model="time"
+              is-range
               range-separator="-"
               start-placeholder="开始时间"
               end-placeholder="结束时间"
-              placeholder="选择时间范围">
-            </el-time-picker>
+              placeholder="选择时间范围"
+            />
           </div>
         </div>
 
         <!--<div style="width: 250px;float: left">-->
-          <!--<el-checkbox-group v-model="checkList">-->
-            <!--<el-checkbox label="离线显示" />-->
-            <!--<el-checkbox label="多信息窗" />-->
-          <!--</el-checkbox-group>-->
+        <!--<el-checkbox-group v-model="checkList">-->
+        <!--<el-checkbox label="离线显示" />-->
+        <!--<el-checkbox label="多信息窗" />-->
+        <!--</el-checkbox-group>-->
         <!--</div>-->
         <!--<div style="width: 150px;float: left">-->
-          <!--<el-dropdown>-->
-            <!--<span class="el-dropdown-link">-->
-              <!--刷新频率：1秒<i class="el-icon-arrow-down el-icon&#45;&#45;right" />-->
-            <!--</span>-->
-            <!--<el-dropdown-menu slot="dropdown"><el-dropdown-item>1秒</el-dropdown-item>-->
-              <!--<el-dropdown-item>2秒</el-dropdown-item>-->
-              <!--<el-dropdown-item>5秒</el-dropdown-item>-->
-              <!--<el-dropdown-item>10秒</el-dropdown-item>-->
-              <!--<el-dropdown-item>20秒</el-dropdown-item>-->
-            <!--</el-dropdown-menu>-->
-          <!--</el-dropdown>-->
+        <!--<el-dropdown>-->
+        <!--<span class="el-dropdown-link">-->
+        <!--刷新频率：1秒<i class="el-icon-arrow-down el-icon&#45;&#45;right" />-->
+        <!--</span>-->
+        <!--<el-dropdown-menu slot="dropdown"><el-dropdown-item>1秒</el-dropdown-item>-->
+        <!--<el-dropdown-item>2秒</el-dropdown-item>-->
+        <!--<el-dropdown-item>5秒</el-dropdown-item>-->
+        <!--<el-dropdown-item>10秒</el-dropdown-item>-->
+        <!--<el-dropdown-item>20秒</el-dropdown-item>-->
+        <!--</el-dropdown-menu>-->
+        <!--</el-dropdown>-->
         <!--</div>-->
 
       </el-header>
@@ -114,8 +114,7 @@
 
 <script>
 import L from 'leaflet'
-import axios from 'axios'
-import qs from 'qs'
+import { getLocation } from '../../api/location'
 
 export default {
   name: 'TraceReplay',
@@ -192,7 +191,7 @@ export default {
     }
   },
   created() {
-    // this.fetchLocation1(this)
+    this.fetchLocation()
   },
   mounted() {
     setTimeout(() => {
@@ -206,58 +205,16 @@ export default {
     },
 
     fetchLocation() {
-      var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
-      var arr = choosen.substring(1, choosen.length - 1).split(',')
-      // if (!this.checkList.includes('离线显示')) {
-      //   return
-      // }
-      const self = this
-      axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
-        qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
-          'tags':
-            [
-              { 'major': arr[0], 'minor': 2598 }
-            ]
-        }))
-        .then(function(response) {
-          var ob1 = JSON.stringify(response.data)
-          var json = JSON.parse(ob1)
-          var data = JSON.parse(JSON.stringify(json.data))
-          var tags = JSON.parse(JSON.stringify(data.tags))
-          // if (!self.stars.includes({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })) {
-          //   self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          // }
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          // console.log(self.stars.length, 'aaaaaaaaaaa')
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+      getLocation({
+        startTime: '2019-01-01 00:00:00',
+        endTime: '2019-06-24 09:12:29',
+        major: '10004',
+        minor: '2504'
+      }).then(response => {
+        this.list = response.data
+      })
     },
-    fetchLocation1(self) {
-      axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
-        qs.stringify({
-          'key': 'MgRekY432YP3jeUsMfah',
-          'mapId': 'leaftest',
-          'tags':
-            [
-              { 'major': 10004, 'minor': 2598 }
-            ]
-        }))
-        .then(function(response) {
-          var ob1 = JSON.stringify(response.data)
-          var json = JSON.parse(ob1)
-          var data = JSON.parse(JSON.stringify(json.data))
-          var tags = JSON.parse(JSON.stringify(data.tags))
-          self.stars.push({ name: tags[0].mapId, lng: tags[0].posX, lat: tags[0].posY })
-          console.log(self.stars.length, 'aaaaaaaaaaa')
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-    },
+
     filterNode(value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
