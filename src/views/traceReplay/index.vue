@@ -23,48 +23,33 @@
             <el-radio :label="9">4X</el-radio>
           </el-radio-group>
         </div>
-        <div style="width: 650px;float: left">
-          <!--选择日-->
-          <div class="block" style="width: 250px;float: left" gutter="20">
-            <el-date-picker
-              v-model="day"
-              type="date"
-              placeholder="选择日期"
-            />
-          </div>
-          <!--时间选择器-->
-          <div style="float: right">
-            <el-time-picker
-              v-model="time"
-              is-range
-              range-separator="-"
-              start-placeholder="开始时间"
-              end-placeholder="结束时间"
-              placeholder="选择时间范围"
-            />
-          </div>
+        <!--<div style="width: 650px;float: left">-->
+          <!--&lt;!&ndash;选择日&ndash;&gt;-->
+          <!--<div class="block" style="width: 250px;float: left" gutter="20">-->
+            <!--<el-date-picker-->
+              <!--v-model="day"-->
+              <!--type="date"-->
+              <!--placeholder="选择日期"-->
+            <!--/>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;时间选择器&ndash;&gt;-->
+          <!--<div style="float: right">-->
+            <!--<el-time-picker-->
+              <!--v-model="time"-->
+              <!--is-range-->
+              <!--range-separator="-"-->
+              <!--start-placeholder="开始时间"-->
+              <!--end-placeholder="结束时间"-->
+              <!--placeholder="选择时间范围"-->
+            <!--/>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="block">
+          开始时间：
+          <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
+          至
+          <el-date-picker v-model="overDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsEnd" style="margin-left: 10px;" @change="endTimeStatus" />
         </div>
-
-        <!--<div style="width: 250px;float: left">-->
-        <!--<el-checkbox-group v-model="checkList">-->
-        <!--<el-checkbox label="离线显示" />-->
-        <!--<el-checkbox label="多信息窗" />-->
-        <!--</el-checkbox-group>-->
-        <!--</div>-->
-        <!--<div style="width: 150px;float: left">-->
-        <!--<el-dropdown>-->
-        <!--<span class="el-dropdown-link">-->
-        <!--刷新频率：1秒<i class="el-icon-arrow-down el-icon&#45;&#45;right" />-->
-        <!--</span>-->
-        <!--<el-dropdown-menu slot="dropdown"><el-dropdown-item>1秒</el-dropdown-item>-->
-        <!--<el-dropdown-item>2秒</el-dropdown-item>-->
-        <!--<el-dropdown-item>5秒</el-dropdown-item>-->
-        <!--<el-dropdown-item>10秒</el-dropdown-item>-->
-        <!--<el-dropdown-item>20秒</el-dropdown-item>-->
-        <!--</el-dropdown-menu>-->
-        <!--</el-dropdown>-->
-        <!--</div>-->
-
       </el-header>
       <el-container>
 
@@ -88,22 +73,14 @@
         <el-main>
           <l-map style="height: 100%; width: 100%" :options="{zoomControl: false}" :crs="crs">
             <l-image-overlay
-              :url="mapsource"
-              :bounds="bounds"
-              style="height: 900px; width: 100%"
-            />
-            <l-marker
-              v-for="star in stars"
-              :key="star.name"
-              :lat-lng="star"
-            >
-              <l-popup
-                :content="'mapid:'+star.name +
-                  '<br>'+'battery:100'+'<br>'
-                  +'status:safe'
-                "
-              />
-            </l-marker>
+            :url="mapsource"
+            :bounds="bounds"
+            style="height: 900px; width: 100%"
+          />
+            <l-polyline
+              :lat-lngs="polyline.latlngs"
+              :color="polyline.color">
+            </l-polyline>
           </l-map>
         </el-main>
 
@@ -120,12 +97,33 @@ export default {
   name: 'TraceReplay',
   data() {
     return {
-      // 时间选择器
-      time: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
-      // 选择日
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
+      // // 时间选择器
+      // time: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
+      // // 选择日
+      // pickerOptions: {
+      //   disabledDate(time) {
+      //     return time.getTime() > Date.now()
+      //   }
+      // },
+      createDate: '',
+      overDate: '',
+      pickerOptionsStart: {
+        disabledDate: time => {
+          const endDateVal = this.overDate
+          if (endDateVal) {
+            return time.getTime() > new Date(endDateVal).getTime()
+          }
+        }
+      },
+      pickerOptionsEnd: {
+        disabledDate: time => {
+          const beginDateVal = this.createDate
+          if (beginDateVal) {
+            return (
+              time.getTime() <
+              new Date(beginDateVal).getTime()
+            )
+          }
         }
       },
       day: '',
@@ -134,6 +132,14 @@ export default {
       mapsource: 'map.png',
       bounds: [[-300, -300], [600, 600]],
       crs: L.CRS.Simple,
+      zoom: 8,
+      center: [47.413220, -1.319482],
+      markerLatLng: [47.313220, -1.319482],
+      testarray: [[]],
+      polyline: {
+        latlngs: [[]],
+        color: 'green'
+      },
       stars: [],
       checkList: [],
       filterText: '',
@@ -191,7 +197,7 @@ export default {
     }
   },
   created() {
-    this.fetchLocation()
+    // this.fetchLocation()
   },
   mounted() {
     setTimeout(() => {
@@ -199,19 +205,32 @@ export default {
     }, 2000)
   },
   methods: {
-
+    startTimeStatus: function(value) {
+      this.createDate = value
+    },
+    // 时间结束选择器
+    endTimeStatus: function(value) {
+      this.overDate = value
+    },
     empty() {
       this.filterText = ''
     },
 
     fetchLocation() {
       getLocation({
-        startTime: '2019-01-01 00:00:00',
-        endTime: '2019-06-24 09:12:29',
+        // startTime: '2019-06-24 12:00:00',
+        // endTime: '2019-06-24 12:59:10',
+        startTime: this.createDate,
+        endTime: this.overDate,
         major: '10004',
         minor: '2504'
       }).then(response => {
         this.list = response.data
+        let i = 0
+        for (i; i < this.list.length; i++) {
+          this.testarray[i] = [this.list[i].x, this.list[i].y]
+        }
+        this.polyline.latlngs = this.testarray
       })
     },
 
