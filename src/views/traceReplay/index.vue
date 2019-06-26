@@ -10,41 +10,34 @@
             clearable
           >
             <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
+            <el-button slot="append" icon="el-icon-refresh" @click=" test1" />
+            <el-button slot="append" icon="el-icon-refresh" @click=" test2" />
           </el-input>
         </div>
         <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click="fetchLocation" />
+          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
         </div>
-        <!--单选框组-->
-        <div style="width: 250px;float: left">
-          <el-radio-group v-model="radio">
-            <el-radio :label="3">1X</el-radio>
-            <el-radio :label="6">2X</el-radio>
-            <el-radio :label="9">4X</el-radio>
-          </el-radio-group>
-        </div>
-        <!--<div style="width: 650px;float: left">-->
-          <!--&lt;!&ndash;选择日&ndash;&gt;-->
-          <!--<div class="block" style="width: 250px;float: left" gutter="20">-->
-            <!--<el-date-picker-->
-              <!--v-model="day"-->
-              <!--type="date"-->
-              <!--placeholder="选择日期"-->
-            <!--/>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;时间选择器&ndash;&gt;-->
-          <!--<div style="float: right">-->
-            <!--<el-time-picker-->
-              <!--v-model="time"-->
-              <!--is-range-->
-              <!--range-separator="-"-->
-              <!--start-placeholder="开始时间"-->
-              <!--end-placeholder="结束时间"-->
-              <!--placeholder="选择时间范围"-->
-            <!--/>-->
-          <!--</div>-->
+        <!--&lt;!&ndash;单选框组&ndash;&gt;-->
+        <!--<div style="width: 250px;float: left">-->
+          <!--<el-radio-group v-model="radio">-->
+            <!--<el-radio :label="3">1X</el-radio>-->
+            <!--<el-radio :label="6">2X</el-radio>-->
+            <!--<el-radio :label="9">4X</el-radio>-->
+          <!--</el-radio-group>-->
         <!--</div>-->
-        <div class="block">
+        <div style="width: 30px;float: left">  &nbsp;  </div>
+        <div style="float: left" >回放速度 :
+          <el-select v-model="value" placeholder="请选择" @change="currentSel">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div style="width: 30px;float: left">  &nbsp;  </div>
+        <div style="float: left" >
           开始时间：
           <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
           至
@@ -97,14 +90,19 @@ export default {
   name: 'TraceReplay',
   data() {
     return {
-      // // 时间选择器
-      // time: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
-      // // 选择日
-      // pickerOptions: {
-      //   disabledDate(time) {
-      //     return time.getTime() > Date.now()
-      //   }
-      // },
+      timer: null,
+      options: [{
+        value: '10',
+        label: '1X'
+      }, {
+        value: '20',
+        label: '2X'
+      }, {
+        value: '40',
+        label: '4X'
+      }],
+      Interval: null,
+      value: '',
       createDate: '',
       overDate: '',
       pickerOptionsStart: {
@@ -127,21 +125,21 @@ export default {
         }
       },
       day: '',
-      // 单选框组
-      radio: 3,
+      dialogVisible: false,
+      selVal: '',
       mapsource: 'map.png',
       bounds: [[-300, -300], [600, 600]],
       crs: L.CRS.Simple,
+      timestr: '',
       zoom: 8,
       center: [47.413220, -1.319482],
       markerLatLng: [47.313220, -1.319482],
-      testarray: [[]],
       polyline: {
         latlngs: [[]],
         color: 'green'
       },
+      list: [],
       stars: [],
-      checkList: [],
       filterText: '',
       data: [{
         id: 1,
@@ -197,7 +195,7 @@ export default {
     }
   },
   created() {
-    // this.fetchLocation()
+    this.fetchLocation()
   },
   mounted() {
     setTimeout(() => {
@@ -218,22 +216,42 @@ export default {
 
     fetchLocation() {
       getLocation({
-        // startTime: '2019-06-24 12:00:00',
-        // endTime: '2019-06-24 12:59:10',
-        startTime: this.createDate,
-        endTime: this.overDate,
+        startTime: '2019-06-24 12:00:00',
+        endTime: '2019-06-25 12:30:10',
+        // startTime: this.createDate,
+        // endTime: this.overDate,
         major: '10004',
         minor: '2504'
       }).then(response => {
         this.list = response.data
         let i = 0
         for (i; i < this.list.length; i++) {
-          this.testarray[i] = [this.list[i].x, this.list[i].y]
+          // 数组值变化并且重新渲染的方法
+          // this.$set(this.polyline.latlngs, i, [this.list[i].x, this.list[i].y])
         }
-        this.polyline.latlngs = this.testarray
       })
     },
-
+    end: function() {
+      clearInterval(this.timer)
+    },
+    startTrace() {
+      this.timestr = 0
+      if (this.interval != null) {
+        this.timer = setInterval(this.trace, this.Interval)
+      }
+    },
+    trace() {
+      const a = this.timestr
+      for (this.timestr; this.timestr < this.list.length && this.timestr < a + 3; this.timestr++) {
+        // 数组值变化并且重新渲染的方法
+        this.$set(this.polyline.latlngs, this.timestr, [this.list[this.timestr].x, this.list[this.timestr].y])
+      }
+    },
+    currentSel(selVal) {
+      this.end()
+      this.interval = selVal
+      this.dialogVisible = true
+    },
     filterNode(value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
