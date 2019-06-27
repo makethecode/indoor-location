@@ -10,21 +10,11 @@
             clearable
           >
             <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
-            <el-button slot="append" icon="el-icon-refresh" @click=" test1" />
-            <el-button slot="append" icon="el-icon-refresh" @click=" test2" />
           </el-input>
         </div>
         <div style="width: 100px;float: left">
           <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
         </div>
-        <!--&lt;!&ndash;单选框组&ndash;&gt;-->
-        <!--<div style="width: 250px;float: left">-->
-        <!--<el-radio-group v-model="radio">-->
-        <!--<el-radio :label="3">1X</el-radio>-->
-        <!--<el-radio :label="6">2X</el-radio>-->
-        <!--<el-radio :label="9">4X</el-radio>-->
-        <!--</el-radio-group>-->
-        <!--</div>-->
         <div style="width: 30px;float: left">  &nbsp;  </div>
         <div style="float: left">回放速度 :
           <el-select v-model="value" placeholder="请选择" @change="currentSel">
@@ -223,10 +213,10 @@ export default {
 
     fetchLocation() {
       getLocation({
-        startTime: '2019-06-24 12:00:00',
-        endTime: '2019-06-25 12:30:10',
-        // startTime: this.createDate,
-        // endTime: this.overDate,
+        // startTime: '2019-06-24 12:00:00',
+        // endTime: '2019-06-25 12:30:10',
+        startTime: this.createDate,
+        endTime: this.overDate,
         major: '10004',
         minor: '2504'
       }).then(response => {
