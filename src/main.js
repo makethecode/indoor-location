@@ -24,6 +24,7 @@ import { LMap, LTileLayer, LMarker, LImageOverlay, LPopup, LPolyline } from 'vue
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+import 'leaflet-draw/dist/leaflet.draw.css'
 /**
  * If you don't want to use mock-server
  * you want to use mockjs for request interception
