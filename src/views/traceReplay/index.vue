@@ -19,14 +19,14 @@
         </div>
         <!--&lt;!&ndash;单选框组&ndash;&gt;-->
         <!--<div style="width: 250px;float: left">-->
-          <!--<el-radio-group v-model="radio">-->
-            <!--<el-radio :label="3">1X</el-radio>-->
-            <!--<el-radio :label="6">2X</el-radio>-->
-            <!--<el-radio :label="9">4X</el-radio>-->
-          <!--</el-radio-group>-->
+        <!--<el-radio-group v-model="radio">-->
+        <!--<el-radio :label="3">1X</el-radio>-->
+        <!--<el-radio :label="6">2X</el-radio>-->
+        <!--<el-radio :label="9">4X</el-radio>-->
+        <!--</el-radio-group>-->
         <!--</div>-->
         <div style="width: 30px;float: left">  &nbsp;  </div>
-        <div style="float: left" >回放速度 :
+        <div style="float: left">回放速度 :
           <el-select v-model="value" placeholder="请选择" @change="currentSel">
             <el-option
               v-for="item in options"
@@ -37,7 +37,7 @@
           </el-select>
         </div>
         <div style="width: 30px;float: left">  &nbsp;  </div>
-        <div style="float: left" >
+        <div style="float: left">
           开始时间：
           <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
           至
@@ -66,17 +66,23 @@
         <el-main>
           <l-map style="height: 100%; width: 100%" :options="{zoomControl: false}" :crs="crs">
             <l-image-overlay
-            :url="mapsource"
-            :bounds="bounds"
-            style="height: 900px; width: 100%"
-          />
+              :url="mapsource"
+              :bounds="bounds"
+              style="height: 900px; width: 100%"
+            />
             <l-polyline
               :lat-lngs="polyline.latlngs"
-              :color="polyline.color">
-            </l-polyline>
+              :color="polyline.color"
+            />
+            <l-marker
+              :lat-lng="star"
+            >
+              <l-popup
+                :content="'time:'+MarkerTime"
+              />
+            </l-marker>
           </l-map>
         </el-main>
-
       </el-container>
     </el-container>
   </div>
@@ -103,8 +109,10 @@ export default {
       }],
       Interval: null,
       value: '',
+      star: [-1000, -1000],
       createDate: '',
       overDate: '',
+      MarkerTime: ' ',
       pickerOptionsStart: {
         disabledDate: time => {
           const endDateVal = this.overDate
@@ -130,10 +138,9 @@ export default {
       mapsource: 'map.png',
       bounds: [[-300, -300], [600, 600]],
       crs: L.CRS.Simple,
-      timestr: '',
+      timestr: 0,
       zoom: 8,
       center: [47.413220, -1.319482],
-      markerLatLng: [47.313220, -1.319482],
       polyline: {
         latlngs: [[]],
         color: 'green'
@@ -224,27 +231,31 @@ export default {
         minor: '2504'
       }).then(response => {
         this.list = response.data
-        let i = 0
-        for (i; i < this.list.length; i++) {
-          // 数组值变化并且重新渲染的方法
-          // this.$set(this.polyline.latlngs, i, [this.list[i].x, this.list[i].y])
-        }
       })
     },
     end: function() {
       clearInterval(this.timer)
     },
     startTrace() {
-      this.timestr = 0
-      if (this.interval != null) {
+      // alert(this.timer)
+      if (this.interval != null && this.timer === null) {
         this.timer = setInterval(this.trace, this.Interval)
+      } else {
+        clearInterval(this.timer)
+        this.timer = null
       }
     },
     trace() {
       const a = this.timestr
-      for (this.timestr; this.timestr < this.list.length && this.timestr < a + 3; this.timestr++) {
+      for (this.timestr; this.timestr < this.list.length && this.timestr < a + 1; this.timestr++) {
         // 数组值变化并且重新渲染的方法
         this.$set(this.polyline.latlngs, this.timestr, [this.list[this.timestr].x, this.list[this.timestr].y])
+        this.$set(this.star, 0, this.list[this.timestr].x)
+        this.$set(this.star, 1, this.list[this.timestr].y)
+        this.MarkerTime = this.list[this.timestr].time
+        // var item = []
+        // item.push({ X: this.list[i].x, Y: this.list[i].y, time: this.list[i].time })
+        // self.stars = item
       }
     },
     currentSel(selVal) {
@@ -261,18 +272,8 @@ export default {
     }
   }
 }
-
 </script>
 <style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-  }
   .el-table-filter {
     max-height: 700px;
     overflow: auto;
