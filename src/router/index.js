@@ -15,7 +15,7 @@ import Layout from '@/layout'
  *                                if not set alwaysShow, when item has more than one children route,
  *                                it will becomes nested mode, otherwise not show the root menu
  * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * name:'dstate-name'             the name is used by <keep-alive> (must set!!!)
  * meta : {
     roles: ['admin','editor']    control the page roles (you can set multiple roles)
     title: 'title'               the name show in sidebar and breadcrumb (recommend set)
@@ -88,12 +88,39 @@ export const constantRoutes = [
   {
     path: '/dStates',
     component: Layout,
+    redirect: '/dStates/',
+    name: 'dStates',
+    meta: {
+      title: '设备状态',
+      icon: 'dStates'
+    },
     children: [
       {
-        path: 'index',
-        name: 'dStates',
-        component: () => import('@/views/dStates/index'),
-        meta: { title: '设备状态', icon: 'dStates' }
+        path: 'router',
+        component: () => import('@/views/dStates/router/index'),
+        name: 'router',
+        meta: {
+          title: '路由',
+          icon: 'router'
+        }
+      },
+      {
+        path: 'tag',
+        component: () => import('@/views/dStates/tag/index'),
+        name: 'tag',
+        meta: {
+          title: '标签',
+          icon: 'tag'
+        }
+      },
+      {
+        path: 'dstate',
+        component: () => import('@/views/dStates/dstate/index'),
+        name: 'dstate',
+        meta: {
+          title: '设备状态',
+          icon: 'dstate'
+        }
       }
     ]
   },
@@ -112,7 +139,7 @@ export const constantRoutes = [
   {
     path: '/analyseStat',
     component: Layout,
-    redirect: '/analyseStat/menu1',
+    redirect: '/analyseStat/',
     name: 'analyseStat',
     meta: {
       title: '分析统计',
@@ -150,7 +177,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
+        component: () => import('@/views/nested/menu1/index'), // Parent dstate-view
         name: 'Menu1',
         meta: { title: 'Menu1' },
         children: [
@@ -221,7 +248,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher // reset dstate
 }
 
 export default router
