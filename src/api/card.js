@@ -6,31 +6,30 @@ export function getCardInfo() {
     method: 'post'
   })
 }
-export function saveCard(cardId, cardNum, cardType, cardStatus, companyId, personId) {
+export function saveCard(personId, cardNum, cardType, cardStatus, companyId) {
   return request({
     url: '/func/web/saveCardList',
     method: 'POST',
     data: {
-      cardId,
+      personId,
       cardNum,
       cardType,
       cardStatus,
-      companyId,
-      personId
+      companyId
     }
   })
 }
-export function editCard(cardId, cardNum, cardType, cardStatus, companyId, personId) {
+export function editCard(cardId, personId, cardNum, cardType, cardStatus, companyId) {
   return request({
     url: '/func/web/editCardList',
     method: 'POST',
     data: {
       cardId,
+      personId,
       cardNum,
       cardType,
       cardStatus,
-      companyId,
-      personId
+      companyId
     }
   })
 }

@@ -21,7 +21,7 @@
     </el-header>
     <el-table
       v-loading="listLoading"
-      :data="cardTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+      :data="beaconTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
       strip
       element-loading-text="Loading"
       border
@@ -30,43 +30,51 @@
       style="margin-top:10px"
     >
       <el-table-column
-        label="标签编号"
+        label="信标编号"
         min-width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.cardId }}
+          {{ scope.row.beaconId }}
         </template>
       </el-table-column>
       <el-table-column
-        label="人员编号"
+        label="信标数量"
         min-width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.personId }}
+          {{ scope.row.beaconNum }}
         </template>
       </el-table-column>
       <el-table-column
-        label="标签数量"
+        label="信标类型"
         min-width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.cardNum }}
+          {{ scope.row.beaconType }}
         </template>
       </el-table-column>
       <el-table-column
-        label="标签类型"
+        label="信标状态"
         min-width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.cardType }}
+          {{ scope.row.beaconStatus }}
         </template>
       </el-table-column>
       <el-table-column
-        label="标签状态"
+        label="信标X轴坐标"
         min-width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.cardStatus }}
+          {{ scope.row.beaconX }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="信标Y轴坐标"
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.beaconY }}
         </template>
       </el-table-column>
       <el-table-column
@@ -88,20 +96,23 @@
     <div>
       <el-dialog title="编辑" :visible.sync="dialogFormVisible" width="500px">
         <el-form ref="editlist" :model="editlist" :rules="rules" label-position="left" label-width="140px" style="width: 430px; margin-left:50px;">
-          <el-form-item label="标签编号:">
-            <el-input v-model="editlist.cardId" readonly="true" style="width: 80%" disabled="disabled" autocomplete="off" />
+          <el-form-item label="信标编号:">
+            <el-input v-model="editlist.beaconId" readonly="true" style="width: 80%" disabled="disabled" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="人员编号:" prop="personId">
-            <el-input v-model="editlist.personId" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标数量:" prop="beaconNum">
+            <el-input v-model="editlist.beaconNum" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签数量:" prop="cardNum">
-            <el-input v-model="editlist.cardNum" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标类型:" prop="beaconType">
+            <el-input v-model="editlist.beaconType" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签类型:" prop="cardType">
-            <el-input v-model="editlist.cardType" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标状态:" prop="beaconStatus">
+            <el-input v-model="editlist.beaconStatus" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签状态:" prop="cardStatus">
-            <el-input v-model="editlist.cardStatus" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标X轴坐标:" prop="beaconX">
+            <el-input v-model="editlist.beaconX" style="width: 80%" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="信标Y轴坐标:" prop="beaconY">
+            <el-input v-model="editlist.beaconY" style="width: 80%" autocomplete="off" />
           </el-form-item>
           <el-form-item label="公司编号:" prop="companyId">
             <el-input v-model="editlist.companyId" style="width: 80%" autocomplete="off" />
@@ -109,7 +120,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editCardList('editlist')">确 定</el-button>
+          <el-button type="primary" @click="editBeaconList('editlist')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -117,17 +128,20 @@
     <div>
       <el-dialog title="保存" :visible.sync="dialogSaveFormVisible" width="500px">
         <el-form ref="savelist" :model="savelist" :rules="rules" label-position="left" label-width="140px" style="width: 430px; margin-left:50px;">
-          <el-form-item label="人员编号:" prop="personId">
-            <el-input v-model="savelist.personId" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标数量:" prop="beaconNum">
+            <el-input v-model="savelist.beaconNum" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签数量:" prop="cardNum">
-            <el-input v-model="savelist.cardNum" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标类型:" prop="beaconType">
+            <el-input v-model="savelist.beaconType" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签类型:" prop="cardType">
-            <el-input v-model="savelist.cardType" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标状态:" prop="beaconStatus">
+            <el-input v-model="savelist.beaconStatus" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="标签状态:" prop="cardStatus">
-            <el-input v-model="savelist.cardStatus" style="width: 80%" autocomplete="off" />
+          <el-form-item label="信标X轴坐标:" prop="beaconX">
+            <el-input v-model="savelist.beaconX" style="width: 80%" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="信标Y轴坐标:" prop="beaconY">
+            <el-input v-model="savelist.beaconY" style="width: 80%" autocomplete="off" />
           </el-form-item>
           <el-form-item label="公司编号:" prop="companyId">
             <el-input v-model="savelist.companyId" style="width: 80%" autocomplete="off" />
@@ -135,7 +149,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogSaveFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="saveCardList('savelist')">确 定</el-button>
+          <el-button type="primary" @click="saveBeaconList('savelist')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -146,7 +160,7 @@
         :page-sizes="[10, 20, 50, 100]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="cardTableList.length"
+        :total="beaconTableList.length"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -155,7 +169,7 @@
 </template>
 
 <script>
-import { getCardInfo, saveCard, editCard, deleteCard } from '../../../api/card'
+import { getBeaconInfo, saveBeacon, editBeacon, deleteBeacon } from '../../../api/beacon'
 
 export default {
   filters: {
@@ -165,36 +179,44 @@ export default {
     return {
       pageSize: 10, // 每页的数据条数
       currentPage: 1, // 默认开始页面
-      cardlist: [],
+      beaconlist: [],
       dialogFormVisible: false,
       dialogSaveFormVisible: false,
       editlist: {
-        cardId: '',
-        cardNum: '',
-        cardType: '',
-        cardStatus: '',
-        companyId: '',
-        personId: ''
+        beaconId: '',
+        beaconNum: '',
+        beaconType: '',
+        beaconStatus: '',
+        beaconX: '',
+        beaconY: '',
+        companyId: ''
       },
       savelist: {
-        cardNum: '',
-        cardType: '',
-        cardStatus: '',
-        companyId: '',
-        personId: ''
+        beaconNum: '',
+        beaconType: '',
+        beaconStatus: '',
+        beaconX: '',
+        beaconY: '',
+        companyId: ''
       },
       rules: {
         personId: [
           { required: true, message: '请输入人员编号', trigger: 'blur' }
         ],
-        cardNum: [
-          { required: true, message: '请输入标签数量', trigger: 'blur' }
+        beaconNum: [
+          { required: true, message: '请输入信标数量', trigger: 'blur' }
         ],
-        cardType: [
-          { required: true, message: '请输入标签类型', trigger: 'blur' }
+        beaconType: [
+          { required: true, message: '请输入信标类型', trigger: 'blur' }
         ],
-        cardStatus: [
-          { required: true, message: '请输入标签状态', trigger: 'blur' }
+        beaconStatus: [
+          { required: true, message: '请输入信标状态', trigger: 'blur' }
+        ],
+        beaconX: [
+          { required: true, message: '请输入信标X轴坐标', trigger: 'blur' }
+        ],
+        beaconY: [
+          { required: true, message: '请输入信标Y轴坐标', trigger: 'blur' }
         ],
         companyId: [
           { required: true, message: '请输入公司ID', trigger: 'blur' }
@@ -206,8 +228,8 @@ export default {
     }
   },
   computed: {
-    'cardTableList': function() {
-      return this.cardlist.filter(item => {
+    'beaconTableList': function() {
+      return this.beaconlist.filter(item => {
         // if (!this.createDate || !this.overDate) {
         //   return true
         // }
@@ -227,7 +249,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteCard(this.editlist.cardId).then(res => {
+        deleteBeacon(this.editlist.beaconId).then(res => {
           if (res.re === 1) {
             this.$message({
               message: '删除成功',
@@ -251,13 +273,13 @@ export default {
       this.editlist = item
       this.dialogFormVisible = true
     },
-    editCardList(formName) {
+    editBeaconList(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogFormVisible = false
-          editCard(this.editlist.cardId, this.editlist.cardNum,
-            this.editlist.cardType, this.editlist.cardStatus
-            , this.editlist.companyId, this.editlist.personId).then(res => {
+          editBeacon(this.editlist.beaconId, this.editlist.beaconNum,
+            this.editlist.beaconType, this.editlist.beaconStatus, this.editlist.beaconX, this.editlist.beaconY
+            , this.editlist.companyId).then(res => {
             if (res.re === 1) {
               this.$message({
                 message: '更新成功',
@@ -275,13 +297,13 @@ export default {
         }
       })
     },
-    saveCardList(formName) {
+    saveBeaconList(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogSaveFormVisible = false
-          saveCard(this.savelist.cardId, this.savelist.cardNum,
-            this.savelist.cardType, this.savelist.cardStatus
-            , this.savelist.companyId, this.savelist.personId).then(res => {
+          saveBeacon(this.savelist.beaconNum,
+            this.savelist.beaconType, this.savelist.beaconStatus, this.savelist.beaconX, this.savelist.beaconY
+            , this.savelist.companyId).then(res => {
             console.log(res)
             if (res.re === 1) {
               this.$refs[formName].resetFields()
@@ -306,8 +328,8 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      getCardInfo().then(response => {
-        this.cardlist = response.data
+      getBeaconInfo().then(response => {
+        this.beaconlist = response.data
       })
       this.listLoading = false
     },
