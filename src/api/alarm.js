@@ -6,7 +6,7 @@ export function getAlarmInfo() {
     method: 'post'
   })
 }
-export function saveAlarm(cardId, alarmContent, X, Y, data1) {
+export function saveAlarm(cardId, alarmContent, X, Y, alarmTime) {
   return request({
     url: '/func/web/saveAlarmList',
     method: 'POST',
@@ -15,11 +15,11 @@ export function saveAlarm(cardId, alarmContent, X, Y, data1) {
       alarmContent,
       X,
       Y,
-      data1
+      alarmTime
     }
   })
 }
-export function editAlarm(alarmId, cardId, alarmContent, X, Y, data1) {
+export function editAlarm(alarmId, cardId, alarmContent, X, Y, alarmTime) {
   return request({
     url: '/func/web/editAlarmList',
     method: 'POST',
@@ -29,7 +29,7 @@ export function editAlarm(alarmId, cardId, alarmContent, X, Y, data1) {
       alarmContent,
       X,
       Y,
-      data1
+      alarmTime
     }
   })
 }

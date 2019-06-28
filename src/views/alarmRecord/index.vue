@@ -96,13 +96,13 @@
           <el-form-item label="警告详情:" prop="alarmContent">
             <el-input v-model="editlist.alarmContent" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="警告时间:" prop="date1">
+          <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="editlist.date1"
+              v-model="editlist.alarmTime"
               style="width: 80%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
@@ -128,13 +128,13 @@
           <el-form-item label="警告详情:" prop="alarmContent">
             <el-input v-model="save.alarmContent" style="width: 80%" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="警告时间:" prop="date1">
+          <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="save.date1"
+              v-model="save.alarmTime"
               style="width: 80%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
@@ -181,20 +181,21 @@ export default {
       list: [],
       dialogFormVisible: false,
       dialogSaveFormVisible: false,
+      testtime: '2019-05-18 00:04:05',
       editlist: {
         alarmId: '',
         cardId: '',
         alarmContent: '',
         X: '',
         Y: '',
-        date1: ''
+        alarmTime: ''
       },
       save: {
         cardId: '',
         alarmContent: '',
         X: '',
         Y: '',
-        date1: '',
+        alarmTime: ''
       },
       rules: {
         cardId: [
@@ -209,7 +210,7 @@ export default {
         Y: [
           { required: true, message: '请输入Y轴坐标', trigger: 'blur' }
         ],
-        date1: [
+        alarmTime: [
           { required: true, message: '请选择日期', trigger: 'change' }
         ]
       },
@@ -296,7 +297,7 @@ export default {
           this.dialogFormVisible = false
           editAlarm(this.editlist.alarmId, this.editlist.cardId,
             this.editlist.alarmContent, this.editlist.X
-            , this.editlist.Y, this.editlist.date1).then(res => {
+            , this.editlist.Y, this.editlist.alarmTime).then(res => {
             if (res.re === 1) {
               this.$message({
                 message: '更新成功',
@@ -335,7 +336,7 @@ export default {
           this.dialogSaveFormVisible = false
           saveAlarm(this.save.cardId,
             this.save.alarmContent, this.save.X
-            , this.save.Y, this.save.date1).then(res => {
+            , this.save.Y, this.save.alarmTime).then(res => {
             console.log(res)
             if (res.re === 1) {
               this.$refs[formName].resetFields()
