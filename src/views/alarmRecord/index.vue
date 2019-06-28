@@ -24,7 +24,6 @@
     >
       <el-table-column
         label="警告编号"
-        sortable
         align="center"
         min-width="160"
       >
@@ -34,7 +33,6 @@
       </el-table-column>
       <el-table-column
         label="卡片编号"
-        sortable
         align="center"
         min-width="160"
       >
@@ -44,7 +42,6 @@
       </el-table-column>
       <el-table-column
         label="警告详情"
-        sortable
         align="center"
         min-width="160"
       >
@@ -54,7 +51,6 @@
       </el-table-column>
       <el-table-column
         label="警告时间"
-        sortable
         align="center"
         min-width="160"
       >
@@ -64,7 +60,6 @@
       </el-table-column>
       <el-table-column
         label="X轴坐标"
-        sortable
         align="center"
         min-width="160"
       >
@@ -74,7 +69,6 @@
       </el-table-column>
       <el-table-column
         label="Y轴坐标"
-        sortable
         align="center"
         min-width="160"
       >
@@ -201,7 +195,6 @@ export default {
         X: '',
         Y: '',
         date1: '',
-        date2: ''
       },
       rules: {
         cardId: [
@@ -309,6 +302,7 @@ export default {
                 message: '更新成功',
                 type: 'success'
               })
+              this.fetchData()
             } else {
               this.$message.error('更新失败')
             }
