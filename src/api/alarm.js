@@ -33,7 +33,7 @@ export function editAlarm(alarmId, cardId, alarmContent, X, Y, alarmTime) {
     }
   })
 }
-export function deleteAlarmList(alarmId) {
+export function deleteAlarm(alarmId) {
   return request({
     url: '/func/web/deleteAlarmList',
     method: 'POST',

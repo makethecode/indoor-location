@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column label="操作" min-width="160" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
+          <el-button size="mini" @click="openEdit(scope.row)">编辑</el-button>
           <el-button size="mini" @click="deleteContent(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -114,19 +114,19 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="edit1('editlist')">确 定</el-button>
+          <el-button type="primary" @click="editAlarmList('editlist')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
     <!--保存-->
     <div>
       <el-dialog title="保存" :visible.sync="dialogSaveFormVisible" width="500px">
-        <el-form ref="save" :model="save" :rules="rules" label-position="left" label-width="140px" style="width: 430px; margin-left:50px;">
+        <el-form ref="savelist" :model="savelist" :rules="rules" label-position="left" label-width="140px" style="width: 430px; margin-left:50px;">
           <el-form-item label="卡片编号:" prop="cardId">
-            <el-input v-model="save.cardId" style="width: 80%" autocomplete="off" />
+            <el-input v-model="savelist.cardId" style="width: 80%" autocomplete="off" />
           </el-form-item>
           <el-form-item label="警告详情:" prop="alarmContent">
-            <el-input v-model="save.alarmContent" style="width: 80%" autocomplete="off" />
+            <el-input v-model="savelist.alarmContent" style="width: 80%" autocomplete="off" />
           </el-form-item>
           <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
@@ -134,19 +134,19 @@
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="save.alarmTime"
+              v-model="savelist.alarmTime"
               style="width: 80%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
-            <el-input v-model="save.X" style="width: 80%" autocomplete="off" />
+            <el-input v-model="savelist.X" style="width: 80%" autocomplete="off" />
           </el-form-item>
           <el-form-item label="Y轴坐标:" prop="Y">
-            <el-input v-model="save.Y" style="width: 80%" autocomplete="off" />
+            <el-input v-model="savelist.Y" style="width: 80%" autocomplete="off" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogSaveFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="saveAlarm('save')">确 定</el-button>
+          <el-button type="primary" @click="saveAlarmList('savelist')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -168,7 +168,7 @@
 
 <script>
 
-import { getAlarmInfo, saveAlarm, editAlarm, deleteAlarmList } from '../../api/alarm'
+import { getAlarmInfo, saveAlarm, editAlarm, deleteAlarm } from '../../api/alarm'
 
 export default {
   name: 'AlarmRecord',
@@ -181,7 +181,6 @@ export default {
       list: [],
       dialogFormVisible: false,
       dialogSaveFormVisible: false,
-      testtime: '2019-05-18 00:04:05',
       editlist: {
         alarmId: '',
         cardId: '',
@@ -190,7 +189,7 @@ export default {
         Y: '',
         alarmTime: ''
       },
-      save: {
+      savelist: {
         cardId: '',
         alarmContent: '',
         X: '',
@@ -267,7 +266,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteAlarmList(this.editlist.alarmId).then(res => {
+        deleteAlarm(this.editlist.alarmId).then(res => {
           if (res.re === 1) {
             this.$message({
               message: '删除成功',
@@ -287,11 +286,11 @@ export default {
         })
       })
     },
-    edit(item) {
+    openEdit(item) {
       this.editlist = item
       this.dialogFormVisible = true
     },
-    edit1(formName) {
+    editAlarmList(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogFormVisible = false
@@ -330,13 +329,13 @@ export default {
       //
       // })
     },
-    saveAlarm(formName) {
+    saveAlarmList(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogSaveFormVisible = false
-          saveAlarm(this.save.cardId,
-            this.save.alarmContent, this.save.X
-            , this.save.Y, this.save.alarmTime).then(res => {
+          saveAlarm(this.savelist.cardId,
+            this.savelist.alarmContent, this.savelist.X
+            , this.savelist.Y, this.savelist.alarmTime).then(res => {
             console.log(res)
             if (res.re === 1) {
               this.$refs[formName].resetFields()
@@ -355,23 +354,6 @@ export default {
           return false
         }
       })
-      // this.dialogSaveFormVisible = false
-      // saveAlarm(this.save.cardId,
-      //   this.save.alarmContent, this.save.X
-      //   , this.save.Y).then(res => {
-      //   console.log(res)
-      //   if (res.re === 1) {
-      //     this.$message({
-      //       message: '保存成功',
-      //       type: 'success'
-      //     })
-      //   } else {
-      //     this.$message.error('保存失败')
-      //   }
-      //   this.fetchData()
-      // }).catch(e => {
-      //
-      // })
     },
     openSave() {
       this.dialogSaveFormVisible = true
