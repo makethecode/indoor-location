@@ -48,31 +48,18 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/home/dashboard',
     name: 'dashboard',
-    meta: { title: '车辆列表', icon: 'home' },
+    meta: { title: '实时监控', icon: 'home' },
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '车辆列表', icon: 'home' }
+      name: 'ashboard',
+      component: () => import('@/views/reTrack/index'),
+      meta: { title: '实时监控', icon: 'eye-open' }
     }]
   },
   {
     path: '/register',
     component: () => import('@/views/register/register'),
     hidden: true
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/reTrack/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
   },
   {
     path: '/traceReplay',
@@ -134,6 +121,18 @@ export const constantRoutes = [
           title: '设备状态',
           icon: 'dstate'
         }
+      }
+    ]
+  },
+  {
+    path: '/electricFence',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'electricFence',
+        component: () => import('@/views/electricFence/index'),
+        meta: { title: '电子围栏', icon: 'password' }
       }
     ]
   },
