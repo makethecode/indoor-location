@@ -1,6 +1,17 @@
 <template>
   <div class="app-container">
     <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">
+      <div style="width:15%; padding-bottom: 10px; float: left;">
+        <el-input
+          v-model="filterText"
+          placeholder="输入编号/名称"
+          class="filterText"
+          clearable
+        >
+          <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
+        </el-input>
+      </div>
+      <div style="width: 5%;float: left">  &nbsp;  </div>
       <div style="width: 35%; float: left;">
         开始时间：
         <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
@@ -98,12 +109,13 @@
           </el-form-item>
           <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
+              v-model="editlist.alarmTime"
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="editlist.alarmTime"
-              style="width: 80%;"></el-date-picker>
+              style="width: 80%;"
+            />
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
             <el-input v-model="editlist.X" style="width: 80%" autocomplete="off" />
@@ -130,12 +142,13 @@
           </el-form-item>
           <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
+              v-model="savelist.alarmTime"
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="savelist.alarmTime"
-              style="width: 80%;"></el-date-picker>
+              style="width: 80%;"
+            />
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
             <el-input v-model="savelist.X" style="width: 80%" autocomplete="off" />
@@ -243,7 +256,7 @@ export default {
 
     'tableList': function() {
       return this.list.filter(item => {
-        if (!this.createDate || !this.overDate) {
+        if (!this.createDate || !this.overDate || !this.filterText) {
           return true
         }
         if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) {
@@ -313,21 +326,6 @@ export default {
           return false
         }
       })
-      // this.dialogFormVisible = false
-      // editAlarm(this.editlist.alarmId, this.editlist.cardId,
-      //   this.editlist.alarmContent, this.editlist.X
-      //   , this.editlist.Y).then(res => {
-      //   if (res.re === 1) {
-      //     this.$message({
-      //       message: '更新成功',
-      //       type: 'success'
-      //     })
-      //   } else {
-      //     this.$message.error('更新失败')
-      //   }
-      // }).catch(e => {
-      //
-      // })
     },
     saveAlarmList(formName) {
       this.$refs[formName].validate((valid) => {
@@ -358,6 +356,9 @@ export default {
     openSave() {
       this.dialogSaveFormVisible = true
     },
+    empty() {
+      this.filterText = ''
+    },
     fetchData() {
       this.listLoading = true
       getAlarmInfo().then(response => {
@@ -387,5 +388,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+

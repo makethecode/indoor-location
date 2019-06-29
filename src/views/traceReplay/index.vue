@@ -243,9 +243,6 @@ export default {
         this.$set(this.star, 0, this.list[this.timestr].x)
         this.$set(this.star, 1, this.list[this.timestr].y)
         this.MarkerTime = this.list[this.timestr].time
-        // var item = []
-        // item.push({ X: this.list[i].x, Y: this.list[i].y, time: this.list[i].time })
-        // self.stars = item
       }
     },
     currentSel(selVal) {

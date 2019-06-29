@@ -6,10 +6,10 @@
               <el-input
                 v-model="filterText"
                 placeholder="输入编号/名称"
-                class="id_input"
+                class="filterText"
                 clearable
               >
-                <el-button slot="append" icon="el-icon-refresh" />
+                <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
               </el-input>
             </div>
             <div style="width:50px; padding-bottom: 10px; float: left;" />
@@ -187,13 +187,22 @@ export default {
   },
   computed: {
     'routerTableList': function() {
-      return this.routerlist.filter(item => {
-        // if (!this.createDate || !this.overDate) {
-        //   return true
-        // }
-        // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
-        return true
-      })
+      var search = this.filterText
+      if (search) {
+        return this.routerlist.filter(function(dataNews) {
+          return Object.keys(dataNews).some(function(key) {
+            return String(dataNews[key]).toLowerCase().indexOf(search) > -1
+          })
+        })
+      }
+      return this.routerlist
+      // return this.routerlist.filter(item => {
+      //   // if (!this.createDate || !this.overDate) {
+      //   //   return true
+      //   // }
+      //   // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
+      //   return true
+      // })
     }
   },
   created() {
@@ -283,6 +292,9 @@ export default {
     },
     openSave() {
       this.dialogSaveFormVisible = true
+    },
+    empty() {
+      this.filterText = ''
     },
     fetchData() {
       this.listLoading = true
