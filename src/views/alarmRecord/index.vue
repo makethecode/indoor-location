@@ -1,17 +1,6 @@
 <template>
   <div class="app-container">
     <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">
-      <div style="width:15%; padding-bottom: 10px; float: left;">
-        <el-input
-          v-model="filterText"
-          placeholder="输入编号/名称"
-          class="filterText"
-          clearable
-        >
-          <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
-        </el-input>
-      </div>
-      <div style="width: 5%;float: left">  &nbsp;  </div>
       <div style="width: 35%; float: left;">
         开始时间：
         <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
@@ -355,9 +344,6 @@ export default {
     },
     openSave() {
       this.dialogSaveFormVisible = true
-    },
-    empty() {
-      this.filterText = ''
     },
     fetchData() {
       this.listLoading = true

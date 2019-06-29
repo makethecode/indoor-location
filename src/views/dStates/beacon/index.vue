@@ -5,7 +5,7 @@
       <div style="width:250px; padding-bottom: 10px; float: left;">
         <el-input
           v-model="filterText"
-          placeholder="输入编号/名称"
+          placeholder="输入关键字"
           class="filterText"
           clearable
         >

@@ -5,7 +5,7 @@
       <div style="width:250px; padding-bottom: 10px; float: left;">
         <el-input
           v-model="filterText"
-          placeholder="输入编号/名称"
+          placeholder="输入关键字"
           class="filterText"
           clearable
         >
@@ -288,7 +288,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogSaveFormVisible = false
-          saveCard( this.savelist.personId, this.savelist.cardNum,
+          saveCard(this.savelist.personId, this.savelist.cardNum,
             this.savelist.cardType, this.savelist.cardStatus
             , this.savelist.companyId).then(res => {
             console.log(res)
