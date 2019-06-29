@@ -1,80 +1,89 @@
 <template>
   <div class="app-container">
-          <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px;">
-            <!--搜索框-->
-            <div style="width:250px; padding-bottom: 10px; float: left;">
-              <el-input
-                v-model="filterText"
-                placeholder="输入关键字"
-                class="filterText"
-                clearable
-              >
-                <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
-              </el-input>
-            </div>
-            <div style="width:50px; padding-bottom: 10px; float: left;" />
-            <div style="width: 20%;float: left">
-              <el-button type="primary">导出<i class="el-icon-upload el-icon--right" /></el-button>
-              <el-button type="primary" round @click="openSave()">增加</el-button>
-            </div>
+    <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px;">
+      <!--搜索框-->
+      <div style="width:250px; padding-bottom: 10px; float: left;">
+        <el-input
+          v-model="filterText"
+          placeholder="输入关键字"
+          class="filterText"
+          clearable
+        >
+          <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
+        </el-input>
+      </div>
+      <div style="width:50px; padding-bottom: 10px; float: left;" />
+      <div style="width: 25%;float: left">
+        <el-button type="primary" round @click="openSave()">增加</el-button>
+      </div>
+      <div style="width: 5%;float: right">
+        <el-button type="primary" @click="exportExcel">导出<i class="el-icon-upload el-icon--right" /></el-button>
+      </div>
 
-          </el-header>
-          <el-table
-            :data="routerTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
-            strip
-            v-loading="listLoading"
-            element-loading-text="Loading"
-            border
-            fit
-            highlight-current-row
-            style="margin-top:10px">
-            <el-table-column
-              label="路由编号"
-              sortable
-              min-width="160">
-              <template slot-scope="scope">
-                {{ scope.row.routerId }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="路由数量"
-              sortable
-              min-width="160">
-              <template slot-scope="scope">
-                {{ scope.row.routerNum }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="路由类型"
-              sortable
-              min-width="160">
-              <template slot-scope="scope">
-                {{ scope.row.routerType }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="路由状态"
-              sortable
-              min-width="160">
-              <template slot-scope="scope">
-                {{ scope.row.routerStatus }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="公司编号"
-              sortable
-              min-width="160">
-              <template slot-scope="scope">
-                {{ scope.row.companyId }}
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" min-width="160" align="center">
-              <template slot-scope="scope">
-                <el-button size="mini" @click="openEdit(scope.row)">编辑</el-button>
-                <el-button size="mini" @click="deleteContent(scope.row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+    </el-header>
+    <el-table
+      id="out-table"
+      v-loading="listLoading"
+      :data="routerTableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+      strip
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+      style="margin-top:10px"
+    >
+      <el-table-column
+        label="路由编号"
+        sortable
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.routerId }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="路由数量"
+        sortable
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.routerNum }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="路由类型"
+        sortable
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.routerType }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="路由状态"
+        sortable
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.routerStatus }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="公司编号"
+        sortable
+        min-width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.companyId }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" min-width="160" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="openEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" @click="deleteContent(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <!--编辑-->
     <div>
       <el-dialog title="编辑" :visible.sync="dialogFormVisible" width="500px">
@@ -127,21 +136,22 @@
     <!--分页-->
     <div class="block" style="float: right">
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[10, 20, 50, 100]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="routerTableList.length">
-      </el-pagination>
+        :total="routerTableList.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { getRouterInfo, saveRouter, editRouter, deleteRouter } from '../../../api/router'
-
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   filters: {
 
@@ -209,6 +219,30 @@ export default {
     this.fetchData()
   },
   methods: {
+    exportExcel() {
+      /* 从表生成工作簿对象 */
+      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      /* 获取二进制字符串作为输出 */
+      var wbout = XLSX.write(wb, {
+        bookType: 'xlsx',
+        bookSST: true,
+        type: 'array'
+      })
+      try {
+        FileSaver.saveAs(
+          // Blob 对象表示一个不可变、原始数据的类文件对象。
+          // Blob 表示的不一定是JavaScript原生格式的数据。
+          // File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+          // 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+          new Blob([wbout], { type: 'application/octet-stream' }),
+          // 设置导出文件名称
+          'router.xlsx'
+        )
+      } catch (e) {
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout
+    },
     deleteContent(item) {
       this.editlist = item
       this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
