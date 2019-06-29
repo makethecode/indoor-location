@@ -12,9 +12,6 @@
             <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
           </el-input>
         </div>
-        <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click=fetchLocation />
-        </div>
         <div style="width: 250px;float: left">
           <el-checkbox-group v-model="checkList">
             <el-checkbox label="离线显示" />
@@ -31,6 +28,9 @@
               :value="item.value"
             />
           </el-select>
+        </div>
+        <div style="width: 100px;float: left">
+          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
         </div>
       </el-header>
       <el-container>
