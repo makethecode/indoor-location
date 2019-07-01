@@ -1,11 +1,13 @@
 <template>
-  <div class="map" />
+  <div class="app-container">
+    <div class="map" />
+  </div>
 </template>
 
 <script>
 import L from 'leaflet'
 import LeafletDraw from 'leaflet-draw'
-
+import { getElectricFence } from '@/api/electricFence'
 export default {
   name: 'TestMap',
   components: {
@@ -20,7 +22,8 @@ export default {
     return {
       map: null,
       normal: null,
-      stat: null
+      stat: null,
+      location: []
     }
   },
   mounted() {
@@ -44,6 +47,17 @@ export default {
     this.map.addControl(drawControl)
     this.map.on(L.Draw.Event.CREATED, function(event) {
       drawnItems.addLayer(event.layer)
+      var data = event.layer._latlngs[0]
+      var ans = ''
+      for (var i = 0; i < data.length; i++) {
+        ans += data[i].lat + ',' + data[i].lng + '|'
+      }
+      // this.location = ans
+      getElectricFence({ 'ans': ans }).then(res => {
+        console.log(res)
+      }).catch(e => {
+
+      })
     })
   },
   methods: {
