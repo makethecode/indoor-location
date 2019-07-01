@@ -192,7 +192,7 @@ export default {
     }
   },
   created() {
-    this.fetchLocation()
+    // this.fetchLocation()
   },
   mounted() {
     setTimeout(() => {
@@ -228,6 +228,8 @@ export default {
     },
     startTrace() {
       // alert(this.timer)
+      this.fetchLocation()
+      // alert(this.list[0].x)
       if (this.interval != null && this.timer === null) {
         this.timer = setInterval(this.trace, this.Interval)
       } else {
