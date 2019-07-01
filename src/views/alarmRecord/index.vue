@@ -7,12 +7,16 @@
         至
         <el-date-picker v-model="overDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsEnd" style="margin-left: 10px;" @change="endTimeStatus" />
       </div>
-      <div style="width: 10%;float: left">
+      <div style="width: 25%;float: left">
         <el-button type="primary" round @click="openSave()">增加</el-button>
+      </div>
+      <div style="width: 5%;float: right">
+        <el-button type="primary" @click="exportExcel">导出<i class="el-icon-upload el-icon--right" /></el-button>
       </div>
     </el-header>
 
     <el-table
+      id="out-table"
       v-loading="listLoading"
       :data="tableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
       strip
@@ -98,12 +102,13 @@
           </el-form-item>
           <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
+              v-model="editlist.alarmTime"
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="editlist.alarmTime"
-              style="width: 80%;"></el-date-picker>
+              style="width: 80%;"
+            />
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
             <el-input v-model="editlist.X" style="width: 80%" autocomplete="off" />
@@ -130,12 +135,13 @@
           </el-form-item>
           <el-form-item label="警告时间:" prop="alarmTime">
             <el-date-picker
+              v-model="savelist.alarmTime"
               type="datetime"
               format="yyyy-MM-dd HH:mm:ss"
               value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择时间"
-              v-model="savelist.alarmTime"
-              style="width: 80%;"></el-date-picker>
+              style="width: 80%;"
+            />
           </el-form-item>
           <el-form-item label="X轴坐标:" prop="X">
             <el-input v-model="savelist.X" style="width: 80%" autocomplete="off" />
@@ -169,7 +175,8 @@
 <script>
 
 import { getAlarmInfo, saveAlarm, editAlarm, deleteAlarm } from '../../api/alarm'
-
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   name: 'AlarmRecord',
   filters: {},
@@ -258,7 +265,30 @@ export default {
     this.fetchData()
   },
   methods: {
-
+    exportExcel() {
+      /* 从表生成工作簿对象 */
+      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      /* 获取二进制字符串作为输出 */
+      var wbout = XLSX.write(wb, {
+        bookType: 'xlsx',
+        bookSST: true,
+        type: 'array'
+      })
+      try {
+        FileSaver.saveAs(
+          // Blob 对象表示一个不可变、原始数据的类文件对象。
+          // Blob 表示的不一定是JavaScript原生格式的数据。
+          // File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+          // 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+          new Blob([wbout], { type: 'application/octet-stream' }),
+          // 设置导出文件名称
+          'alarm.xlsx'
+        )
+      } catch (e) {
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout
+    },
     deleteContent(item) {
       this.editlist = item
       this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
@@ -313,21 +343,6 @@ export default {
           return false
         }
       })
-      // this.dialogFormVisible = false
-      // editAlarm(this.editlist.alarmId, this.editlist.cardId,
-      //   this.editlist.alarmContent, this.editlist.X
-      //   , this.editlist.Y).then(res => {
-      //   if (res.re === 1) {
-      //     this.$message({
-      //       message: '更新成功',
-      //       type: 'success'
-      //     })
-      //   } else {
-      //     this.$message.error('更新失败')
-      //   }
-      // }).catch(e => {
-      //
-      // })
     },
     saveAlarmList(formName) {
       this.$refs[formName].validate((valid) => {
@@ -387,5 +402,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+

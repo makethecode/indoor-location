@@ -12,9 +12,6 @@
             <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
           </el-input>
         </div>
-        <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
-        </div>
         <div style="width: 30px;float: left">  &nbsp;  </div>
         <div style="float: left">回放速度 :
           <el-select v-model="value" placeholder="请选择" @change="currentSel">
@@ -32,6 +29,9 @@
           <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
           至
           <el-date-picker v-model="overDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsEnd" style="margin-left: 10px;" @change="endTimeStatus" />
+        </div>
+        <div style="width: 100px;float: left">
+          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
         </div>
       </el-header>
       <el-container>
@@ -243,9 +243,6 @@ export default {
         this.$set(this.star, 0, this.list[this.timestr].x)
         this.$set(this.star, 1, this.list[this.timestr].y)
         this.MarkerTime = this.list[this.timestr].time
-        // var item = []
-        // item.push({ X: this.list[i].x, Y: this.list[i].y, time: this.list[i].time })
-        // self.stars = item
       }
     },
     currentSel(selVal) {

@@ -12,9 +12,6 @@
             <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
           </el-input>
         </div>
-        <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click="fetchLocation" />
-        </div>
         <div style="width: 250px;float: left">
           <el-checkbox-group v-model="checkList">
             <el-checkbox label="离线显示" />
@@ -22,7 +19,7 @@
           </el-checkbox-group>
         </div>
         <div style="width: 30px;float: left">  &nbsp;  </div>
-        <div style="float: left">刷新频率 :
+        <div style="float: left" >刷新频率 :
           <el-select v-model="value" placeholder="请选择" @change="currentSel">
             <el-option
               v-for="item in options"
@@ -31,6 +28,9 @@
               :value="item.value"
             />
           </el-select>
+        </div>
+        <div style="width: 100px;float: left">
+          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
         </div>
       </el-header>
       <el-container>
@@ -176,7 +176,7 @@ export default {
     setTimeout(() => {
       console.log(this.stars, 'mounted')
     }, 2000)
-    setInterval(this.fetchLocation, 1000)
+    // setInterval(this.fetchLocation, 1000)
   },
   methods: {
 
