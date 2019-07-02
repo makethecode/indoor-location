@@ -177,7 +177,6 @@ import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 export default {
   filters: {
-
   },
   data() {
     return {

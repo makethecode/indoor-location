@@ -234,10 +234,11 @@ export default {
       pickerOptionsEnd: {
         disabledDate: time => {
           const beginDateVal = this.createDate
+          const d = new Date(beginDateVal)
+          d.setHours(0, 0, 0, 0)
           if (beginDateVal) {
             return (
-              time.getTime() <
-              new Date(beginDateVal).getTime()
+              time.getTime() < d.getTime()
             )
           }
         }
