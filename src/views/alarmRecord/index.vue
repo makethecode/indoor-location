@@ -1,6 +1,17 @@
 <template>
   <div class="app-container">
     <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">
+      <!--搜索框-->
+      <div style="width:250px; padding-bottom: 10px; float: left;">
+        <el-input
+          v-model="filterText"
+          placeholder="输入关键字"
+          class="filterText"
+          clearable
+        >
+          <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
+        </el-input>
+      </div>
       <div style="width: 35%; float: left;">
         开始时间：
         <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
@@ -248,20 +259,32 @@ export default {
     }
   },
   computed: {
-
     'tableList': function() {
-      return this.list.filter(item => {
-        if (!this.createDate || !this.overDate) {
-          return true
-        }
-        if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) {
-          return true
-        } else {
-          return false
-        }
-      })
+      var search = this.filterText
+      if (search) {
+        return this.list.filter(function(dataNews) {
+          return Object.keys(dataNews).some(function(key) {
+            return String(dataNews[key]).toLowerCase().indexOf(search) > -1
+          })
+        })
+      }
+      return this.list
     }
+
+    // 'tableList': function() {
+    //   return this.list.filter(item => {
+    //     if (!this.createDate || !this.overDate) {
+    //       return true
+    //     }
+    //     if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) {
+    //       return true
+    //     } else {
+    //       return false
+    //     }
+    //   })
+    // }
   },
+
   created() {
     this.fetchData()
   },
