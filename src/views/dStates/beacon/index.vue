@@ -177,7 +177,6 @@ import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 export default {
   filters: {
-
   },
   data() {
     return {
@@ -241,11 +240,6 @@ export default {
           })
         })
       }
-      // return this.beaconlist.filter(item => {
-      // if (!this.createDate || !this.overDate) {
-      //   return true
-      // }
-      // if (item.alarmTime > this.createDate && item.alarmTime < this.overDate) { return true } else { return false }
       return this.beaconlist
     }
   },
