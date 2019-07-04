@@ -237,7 +237,7 @@ export default {
           if (beginDateVal) {
             return (
               time.getTime() <
-              new Date(beginDateVal).getTime()
+                new Date(beginDateVal).getTime()
             )
           }
         }

@@ -1,7 +1,9 @@
 <template>
   <div class="app-container">
     <div class="map" />
+    <el-button type="text" @click="open"></el-button>
   </div>
+
 </template>
 
 <script>
@@ -26,42 +28,50 @@ export default {
       location: []
     }
   },
+  beforeUpdate() {
+    console.log('beforeupdated')
+  },
+  updated() {
+    console.log(this.$root.LOCATION)
+  },
   mounted() {
-    this.map = L.map(this.$el, {
-      drawControl: true,
+    let that = this
+    var location = []
+    that.map = L.map(that.$el, {
       crs: L.CRS.Simple,
       minZoom: -5,
       zoomControl: false,
       attributionControl: false
     })
     var bounds = [[0, 0], [500, 500]]
-    var image = L.imageOverlay('map.png', bounds).addTo(this.map)
-    this.map.fitBounds(bounds)
+    var image = L.imageOverlay('map.png', bounds).addTo(that.map)
+    that.map.fitBounds(bounds)
     var drawnItems = new L.FeatureGroup()
-    this.map.addLayer(drawnItems)
+    that.map.addLayer(drawnItems)
     var drawControl = new L.Control.Draw({
       edit: {
         featureGroup: drawnItems
       }
     })
-    this.map.addControl(drawControl)
-    this.map.on(L.Draw.Event.CREATED, function(event) {
+    that.map.addControl(drawControl)
+    that.map.on(L.Draw.Event.CREATED, function(event) {
       drawnItems.addLayer(event.layer)
       var data = event.layer._latlngs[0]
-      var ans = ''
+      var ans = []
       for (var i = 0; i < data.length; i++) {
-        ans += data[i].lat + ',' + data[i].lng + '|'
+        ans.push({ 'X': data[i].lat, 'Y': data[i].lng })
       }
-      // this.location = ans
-      getElectricFence({ 'ans': ans }).then(res => {
-        console.log(res)
-      }).catch(e => {
-
-      })
+      location.push(ans)
+      that.take(location.length)
+    })
+    that.map.on(L.Draw.Event.DELETED, function(event) {
+      alert('qingkong')
     })
   },
   methods: {
-
+    take(location) {
+      alert(location)
+    }
   }
 }
 </script>
