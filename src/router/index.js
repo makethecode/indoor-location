@@ -127,12 +127,24 @@ export const constantRoutes = [
   {
     path: '/electricFence',
     component: Layout,
+    redirect: '/electricFence/',
+    name: 'analyseStat',
+    meta: {
+      title: '电子围栏',
+      icon: 'tree'
+    },
     children: [
       {
         path: 'index',
-        name: 'electricFence',
+        name: 'index',
         component: () => import('@/views/electricFence/index'),
-        meta: { title: '电子围栏', icon: 'password' }
+        meta: { title: '编辑电子围栏', icon: 'password' }
+      },
+      {
+        path: 'Show',
+        name: 'Show',
+        component: () => import('@/views/electricFence/Show'),
+        meta: { title: '电子围栏展示', icon: 'eye-open' }
       }
     ]
   },
