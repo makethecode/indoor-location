@@ -97,7 +97,7 @@
           <el-form-item label="区域编号:">
             <el-input v-model="editlist.fenceId" readonly="true" style="width: 80%" disabled="disabled" autocomplete="off" />
           </el-form-item>
-          <el-form-item label="区域编号:">
+          <el-form-item label="区域编号:" prop="mapId">
             <el-input v-model="editlist.mapId" style="width: 80%" autocomplete="off"  />
           </el-form-item>
           <el-form-item label="区域状态:" prop="status">
@@ -248,9 +248,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.dialogFormVisible = false
-          editElectricFence(this.editlist.fenceId, this.editlist.alarmId, this.editlist.cardId,
-            this.editlist.alarmContent, this.editlist.X
-            , this.editlist.Y, this.editlist.alarmTime).then(res => {
+          editElectricFence(this.editlist.fenceId, this.editlist.mapId, this.editlist.status,
+            this.editlist.capability, this.editlist.level).then(res => {
             if (res.re === 1) {
               this.$message({
                 message: '更新成功',
