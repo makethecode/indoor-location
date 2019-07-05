@@ -198,7 +198,7 @@
 
 <script>
 import echarts from 'echarts'
-import { getAlarmInfo } from '../../../api/alarm'
+import { getAlarmInfo } from '../../../../api/alarm'
 export default {
   data() {
     return {
@@ -432,10 +432,7 @@ export default {
             6209,
             4323,
             2865,
-            4298,
-            0,
-            0,
-            0
+            4298
           ]
         }
         ]

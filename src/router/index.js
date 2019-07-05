@@ -165,7 +165,27 @@ export const constantRoutes = [
         meta: {
           title: '在线统计',
           icon: 'onlineStat'
-        }
+        },
+        children: [
+          {
+            path: 'table',
+            component: () => import('@/views/analyseStat/onlineStat/table/index'),
+            name: '表格',
+            meta: {
+              title: '表格',
+              icon: 'table'
+            }
+          },
+          {
+            path: 'chart',
+            component: () => import('@/views/analyseStat/onlineStat/chart/index'),
+            name: '图表',
+            meta: {
+              title: '图表',
+              icon: 'chart'
+            }
+          }
+        ]
       },
       {
         path: 'areaAnalyse',
