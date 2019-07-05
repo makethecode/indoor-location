@@ -145,6 +145,12 @@ export const constantRoutes = [
         name: 'Show',
         component: () => import('@/views/electricFence/Show'),
         meta: { title: '电子围栏展示', icon: 'eye-open' }
+      },
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/electricFence/list'),
+        meta: { title: '管理电子围栏', icon: 'eye-open' }
       }
     ]
   },
