@@ -138,19 +138,19 @@ export const constantRoutes = [
         path: 'index',
         name: 'index',
         component: () => import('@/views/electricFence/index'),
-        meta: { title: '编辑电子围栏', icon: 'password' }
+        meta: { title: '新增电子围栏', icon: 'password' }
       },
       {
         path: 'Show',
         name: 'Show',
         component: () => import('@/views/electricFence/Show'),
-        meta: { title: '电子围栏展示', icon: 'eye-open' }
+        meta: { title: '电子围栏展示', icon: 'show1' }
       },
       {
         path: 'list',
         name: 'list',
         component: () => import('@/views/electricFence/list'),
-        meta: { title: '管理电子围栏', icon: 'eye-open' }
+        meta: { title: '管理电子围栏', icon: 'list1' }
       }
     ]
   },

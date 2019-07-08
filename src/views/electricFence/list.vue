@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">
+    <!--<el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">-->
       <!--&lt;!&ndash;搜索框&ndash;&gt;-->
       <!--<div style="width:250px; padding-bottom: 10px; float: left;">-->
         <!--<el-input-->
@@ -18,10 +18,10 @@
         <!--至-->
         <!--<el-date-picker v-model="overDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsEnd" style="margin-left: 10px;" @change="endTimeStatus" />-->
       <!--</div>-->
-    <div style="width: 25%;float: left">
-      <el-button type="primary" round @click="openSave()">增加</el-button>
-    </div>
-    </el-header>
+    <!--<div style="width: 25%;float: left">-->
+      <!--<el-button type="primary" round @click="openSave()">增加</el-button>-->
+    <!--</div>-->
+    <!--</el-header>-->
     <el-table
       v-loading="listLoading"
       :data="tableList.slice((currentPage-1)*pageSize,currentPage*pageSize)"

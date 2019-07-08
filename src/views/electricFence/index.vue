@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="map" />
-    <!--<el-button type="text" @click="open"></el-button>-->
+    <el-button type="text" @click="open" />
     <!--保存-->
     <div>
       <el-dialog title="保存" :visible.sync="dialogSaveFormVisible" width="500px">
@@ -31,14 +31,21 @@
 
 <script>
 import L from 'leaflet'
-
-import { saveElectricFence } from '@/api/electricFence'
+import LeafletDraw from 'leaflet-draw'
+import { getElectricFence, saveElectricFence } from '@/api/electricFence'
 export default {
-  name: 'NewAddress',
+  name: 'TestMap',
   components: {
+    // LMap,
+    // LTileLayer,
+    // LMarker,
+    // LPopup,
+    // LTooltip,
+    // LFeatureGroup
   },
   data() {
     return {
+
       savelist: {
         mapId: '',
         status: '',
@@ -65,11 +72,8 @@ export default {
       normal: null,
       stat: null,
       // location: []
-      location : null
+      location: null
     }
-  },
-  created() {
-    alert(111)
   },
   beforeUpdate() {
     console.log('beforeupdated')
@@ -78,7 +82,7 @@ export default {
     console.log(this.$root.LOCATION)
   },
   mounted() {
-    let that = this
+    const that = this
     var location = []
     that.map = L.map(that.$el, {
       crs: L.CRS.Simple,
