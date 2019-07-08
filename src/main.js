@@ -23,6 +23,8 @@ import 'vue-video-player/src/custom-theme.css'
 import { LMap, LTileLayer, LMarker, LImageOverlay, LPopup, LPolyline, LPolygon } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+// import NewAddress from '@/views/electricFence/index'
+// Vue.use(NewAddress)
 
 import 'leaflet-draw/dist/leaflet.draw.css'
 /**
