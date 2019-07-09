@@ -43,7 +43,6 @@ export default {
       fenceId: [],
       order: [],
       index: '',
-      markerLatLng: [418, 26.5],
       mapsource: 'map.png',
       bounds: [[0, 0], [500, 500]],
       crs: L.CRS.Simple,
