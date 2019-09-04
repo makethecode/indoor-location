@@ -20,7 +20,7 @@ import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 
-import { LMap, LTileLayer, LMarker, LImageOverlay, LPopup, LPolyline, LPolygon } from 'vue2-leaflet'
+import { LMap, LTileLayer, LMarker, LImageOverlay, LPopup, LPolyline, LPolygon, LTooltip } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 // import NewAddress from '@/views/electricFence/index'
@@ -43,6 +43,7 @@ Vue.component('l-image-overlay', LImageOverlay)
 Vue.component('l-popup', LPopup)
 Vue.component('l-polyline', LPolyline)
 Vue.component('l-polygon', LPolygon)
+Vue.component('l-tooltip', LTooltip)
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 Vue.use(BaiduMap, { ak: 'YZk52XHYbwtDoWnnlDO53ysCNBHCG0v6' })

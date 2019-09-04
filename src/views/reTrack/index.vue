@@ -34,14 +34,12 @@
         </div>
       </el-header>
       <el-container>
-
         <el-aside>
           <div class="el-table-filter">
             <el-tree
               ref="tree2"
               class="filter-tree"
               :data="data"
-
               show-checkbox
               node-key="id"
               :props="defaultProps"
@@ -120,14 +118,17 @@ export default {
           id: 2,
           label: 'TAG',
           children: [{
-            id: 2504,
-            label: '2504'
+            id: 2915,
+            label: '2915'
           }, {
-            id: 2521,
-            label: '2521'
+            id: 2997,
+            label: '2997'
           }, {
-            id: 12,
-            label: '1000402598'
+            id: 3246,
+            label: '3246'
+          }, {
+            id: 2993,
+            label: '2993'
           }]
         }, {
           id: 3,
@@ -211,12 +212,14 @@ export default {
       const self = this
       axios.post('http://indoor.yunweizhi.net/index.php?r=loc/gettagpos',
         qs.stringify({
-          'key': '9nPLSh6yDjvtHRTenLjL',
-          'mapId': 'zizhu602a_passive',
+          'key': 'Ua8hA8SGKdLQTeaL2aJJ',
+          'mapId': 'ntyg',
           'tags':
             [
-              { 'major': 10004, 'minor': 2504 },
-              { 'major': 10004, 'minor': 2521 }
+              { 'major': 10004, 'minor': 2915 },
+              { 'major': 10004, 'minor': 2997 },
+              { 'major': 10004, 'minor': 3246 },
+              { 'major': 10004, 'minor': 2993 }
             ]
         }))
         .then(function(response) {
