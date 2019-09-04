@@ -271,7 +271,12 @@ export default {
       })
     },
     openEdit(item) {
-      this.editlist = item
+      // this.editlist = item
+      this.editlist.routerId = item.routerId
+      this.editlist.routerNum = item.routerNum
+      this.editlist.routerType = item.routerType
+      this.editlist.routerStatus = item.routerStatus
+      this.editlist.companyId = item.companyId
       this.dialogFormVisible = true
     },
     editRouterList(formName) {

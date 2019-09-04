@@ -284,7 +284,13 @@ export default {
       })
     },
     openEdit(item) {
-      this.editlist = item
+      // this.editlist = item
+      this.editlist.cardId = item.cardId
+      this.editlist.personId = item.personId
+      this.editlist.cardNum = item.cardNum
+      this.editlist.cardType = item.cardType
+      this.editlist.cardStatus = item.cardStatus
+      this.editlist.companyId = item.companyId
       this.dialogFormVisible = true
     },
     editCardList(formName) {

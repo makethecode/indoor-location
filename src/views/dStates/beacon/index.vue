@@ -299,7 +299,14 @@ export default {
       })
     },
     openEdit(item) {
-      this.editlist = item
+      // this.editlist = item
+      this.editlist.beaconId = item.beaconId
+      this.editlist.beaconNum = item.beaconNum
+      this.editlist.beaconType = item.beaconType
+      this.editlist.beaconStatus = item.beaconStatus
+      this.editlist.beaconX = item.beaconX
+      this.editlist.beaconY = item.beaconY
+      this.editlist.companyId = item.companyId
       this.dialogFormVisible = true
     },
     editBeaconList(formName) {

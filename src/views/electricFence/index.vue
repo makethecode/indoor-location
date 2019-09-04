@@ -32,7 +32,7 @@
 <script>
 import L from 'leaflet'
 import LeafletDraw from 'leaflet-draw'
-import { getElectricFence, saveElectricFence } from '@/api/electricFence'
+import { saveElectricFence } from '@/api/electricFence'
 export default {
   name: 'TestMap',
   components: {
@@ -45,7 +45,6 @@ export default {
   },
   data() {
     return {
-
       savelist: {
         mapId: '',
         status: '',
@@ -96,8 +95,15 @@ export default {
     var drawnItems = new L.FeatureGroup()
     // that.map.addLayer(drawnItems)
     var drawControl = new L.Control.Draw({
+      draw: {
+        circle: false, // 移除圆圈按钮
+        circlemarker: false,
+        marker: false
+      },
       edit: {
-        featureGroup: drawnItems
+        featureGroup: drawnItems,
+        edit: false, // 移除编辑按钮
+        remove: false // 移除删除按钮
       }
     })
     that.map.addControl(drawControl)
@@ -124,6 +130,9 @@ export default {
     that.map.on(L.Draw.Event.DELETED, function(event) {
       alert('qingkong')
     })
+  },
+  created() {
+
   },
   methods: {
     take(test) {

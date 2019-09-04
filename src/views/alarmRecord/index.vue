@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-header height="60px" style="background-color: rgb(238, 241, 246) ;text-align: left; font-size: 12px">
       <!--搜索框-->
-      <div style="width:250px; padding-bottom: 10px; float: left;">
+      <div style="width:20%; padding-bottom: 10px; float: left;margin-right: 5%">
         <el-input
           v-model="filterText"
           placeholder="输入关键字"
@@ -12,7 +12,7 @@
           <el-button slot="append" icon="el-icon-refresh" @click=" empty" />
         </el-input>
       </div>
-      <div style="width: 35%; float: left;">
+      <div style="width: 40%; float: left;">
         开始时间：
         <el-date-picker v-model="createDate" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptionsStart" style="margin-right: 10px;" @change="startTimeStatus" />
         至
@@ -193,6 +193,7 @@ export default {
   filters: {},
   data() {
     return {
+      xxx: '',
       pageSize: 10, // 每页的数据条数
       currentPage: 1, // 默认开始页面
       data: [],
@@ -289,6 +290,10 @@ export default {
     this.fetchData()
   },
   methods: {
+    close() {
+      this.dialogSaveFormVisible = false
+      this.dialogFormVisible = false
+    },
     exportExcel() {
       /* 从表生成工作簿对象 */
       var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
@@ -341,7 +346,12 @@ export default {
       })
     },
     openEdit(item) {
-      this.editlist = item
+      // this.editlist = item
+      this.editlist.alarmId = item.alarmId
+      this.editlist.cardId = item.cardId
+      this.editlist.alarmContent = item.alarmContent
+      this.editlist.X = item.X
+      this.editlist.Y = item.Y
       this.dialogFormVisible = true
     },
     editAlarmList(formName) {

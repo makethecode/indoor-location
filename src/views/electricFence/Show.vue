@@ -54,10 +54,12 @@ export default {
     }
   },
   created() {
+    alert('created')
     this.fetchData()
   },
   methods: {
     fetchData() {
+      alert(111)
       getElectricFence().then(response => {
         const self = this
         this.locationlist = response.data.location
@@ -82,7 +84,7 @@ export default {
           this.$set(this.polygon.latlngs, i, finalarr)
           // this.$set(this.order.location, j, sdu)
           // this.$set(this.order.bianhao, j, fence)
-          item.push({ id: fence, lng: sdu})
+          item.push({ id: fence, lng: sdu })
         }
         self.order = item
       })

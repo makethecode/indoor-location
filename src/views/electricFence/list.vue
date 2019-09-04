@@ -252,7 +252,12 @@ export default {
       })
     },
     openEdit(item) {
-      this.editlist = item
+      // this.editlist = item
+      this.editlist.fenceId = item.fenceId
+      this.editlist.mapId = item.mapId
+      this.editlist.status = item.status
+      this.editlist.capability = item.capability
+      this.editlist.level = item.level
       this.dialogFormVisible = true
     },
     editElectricFenceList(formName) {
@@ -279,6 +284,7 @@ export default {
       })
     },
     fetchData() {
+      alert(111)
       this.listLoading = true
       getElectricFenceInfo().then(response => {
         this.list = response.data
