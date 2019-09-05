@@ -284,7 +284,6 @@ export default {
       })
     },
     fetchData() {
-      alert(111)
       this.listLoading = true
       getElectricFenceInfo().then(response => {
         this.list = response.data

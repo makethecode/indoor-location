@@ -53,13 +53,16 @@ export default {
       center: [300, 300]
     }
   },
-  created() {
-    alert('created')
+  // mounted() {
+  //
+  // },
+  activated() {
+    // alert('created')
     this.fetchData()
   },
   methods: {
     fetchData() {
-      alert(111)
+      // alert(111)
       getElectricFence().then(response => {
         const self = this
         this.locationlist = response.data.location
