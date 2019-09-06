@@ -29,8 +29,11 @@
             />
           </el-select>
         </div>
+        <!--<div style="width: 100px;float: left">-->
+          <!--<el-button type="primary" icon="el-icon-view" circle @click="startTrace" />-->
+        <!--</div>-->
         <div style="width: 100px;float: left">
-          <el-button type="primary" icon="el-icon-view" circle @click="startTrace" />
+          <el-button type="primary" icon="el-icon-view" circle @click=startFetch />
         </div>
       </el-header>
       <el-container>
@@ -103,7 +106,7 @@ export default {
         label: '20秒'
       }],
       value: '',
-      dialogVisible: false,
+      // dialogVisible: false,
       selVal: '',
       mapsource: 'map.png',
       bounds: [[-300, -300], [600, 600]],
@@ -194,14 +197,19 @@ export default {
     currentSel(selVal) {
       this.end()
       this.selVal = selVal
-      this.dialogVisible = true
-      this.start(selVal)
+      this.timer = null
+      // this.dialogVisible = true
+      // this.start(selVal)
       // this.$options.methods.fetchLocation(selVal)
     },
-    test() {
-      console.log(this.checkList.includes('多信息窗'))
+    startFetch() {
+      if (this.timer === null) {
+        this.start(this.selVal)
+      } else {
+        this.end()
+        this.timer = null
+      }
     },
-
     fetchLocation() {
       var choosen = JSON.stringify(this.$refs.tree2.getCheckedKeys())
       var arr = choosen.substring(1, choosen.length - 1).split(',')
