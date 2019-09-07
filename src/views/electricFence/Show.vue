@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     fetchData() {
-      // alert(111)
       getElectricFence().then(response => {
         const self = this
         this.locationlist = response.data.location
